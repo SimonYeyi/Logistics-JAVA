@@ -1,0 +1,13 @@
+server:
+  port: 6000
+  servlet:
+    context-path: /order
+
+spring:
+  application:
+    name: order
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:5000/eureka/
