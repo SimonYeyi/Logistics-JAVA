@@ -10,20 +10,9 @@
         <relativePath/>
     </parent>
 
-    <artifactId>order-service-api</artifactId>
+    <artifactId>order-domain</artifactId>
     <version>0.0.1</version>
-    <name>order-service-api</name>
-
-    <properties>
-        <java.version>11</java.version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-    </dependencies>
+    <name>order-domain</name>
 
     <build>
         <plugins>

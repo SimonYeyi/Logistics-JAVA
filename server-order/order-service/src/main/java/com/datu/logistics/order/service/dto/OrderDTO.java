@@ -1,13 +1,12 @@
 package com.datu.logistics.order.service.dto;
 
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.math.BigInteger;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDTO {
     @NonNull
     private BigInteger orderId;
