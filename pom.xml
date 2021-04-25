@@ -3,25 +3,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <java.version>11</java.version>
+        <spring.boot.version>2.4.3</spring.boot.version>
+        <spring.cloud.version>2020.0.1</spring.cloud.version>
+    </properties>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.3</version>
+        <version>${spring.boot.version}</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <groupId>com.datu.logistics</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1</version>
+    <name>parent</name>
     <packaging>pom</packaging>
-
-    <groupId>com.datu</groupId>
-    <artifactId>logistics</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>logistics</name>
-    <description>Logistics project for Spring Boot</description>
-
-    <properties>
-        <java.version>11</java.version>
-        <spring.cloud.version>2020.0.1</spring.cloud.version>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -37,17 +36,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>

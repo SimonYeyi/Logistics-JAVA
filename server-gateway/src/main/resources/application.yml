@@ -1,0 +1,18 @@
+server:
+  port: 5000
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: order
+          uri: lb://order
+          predicates:
+            - Path=/order/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:5000/eureka/
