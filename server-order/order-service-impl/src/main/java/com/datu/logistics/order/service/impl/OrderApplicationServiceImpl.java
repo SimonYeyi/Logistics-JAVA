@@ -10,13 +10,13 @@ import javax.annotation.Resource;
 import java.math.BigInteger;
 
 @RestController
-public class OrderController implements OrderApplicationService {
+public class OrderApplicationServiceImpl implements OrderApplicationService {
 
     @Resource
     private OrderRepository orderRepository;
 
     @Override
-    public OrderDTO order(BigInteger orderId) {
+    public OrderDTO orderOf(BigInteger orderId) {
         Order order = orderRepository.orderOf(orderId);
         return new OrderDTO(order.getId());
     }
