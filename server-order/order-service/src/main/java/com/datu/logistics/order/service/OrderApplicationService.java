@@ -10,5 +10,5 @@ import java.math.BigInteger;
 public interface OrderApplicationService {
 
     @GetMapping("{id}/get")
-    OrderDTO orderOf(@PathVariable("id") BigInteger id);
+    OrderDTO searchOrder(@PathVariable("id") BigInteger id);
 }

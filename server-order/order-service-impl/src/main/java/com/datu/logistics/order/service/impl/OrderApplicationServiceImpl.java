@@ -16,7 +16,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     private OrderRepository orderRepository;
 
     @Override
-    public OrderDTO orderOf(BigInteger orderId) {
+    public OrderDTO searchOrder(BigInteger orderId) {
         Order order = orderRepository.orderOf(orderId);
         return new OrderDTO(order.getId());
     }
