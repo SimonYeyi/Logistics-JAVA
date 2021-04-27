@@ -10,23 +10,14 @@
         <relativePath/>
     </parent>
 
-    <artifactId>server-registry</artifactId>
+    <artifactId>order-service</artifactId>
     <version>0.0.1</version>
-    <name>server-registry</name>
+    <name>order-service</name>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>

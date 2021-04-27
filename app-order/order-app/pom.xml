@@ -10,19 +10,26 @@
         <relativePath/>
     </parent>
 
-    <artifactId>server-gateway</artifactId>
+    <artifactId>order-app</artifactId>
     <version>0.0.1</version>
-    <name>server-gateway</name>
+    <name>order-app</name>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <groupId>com.datu.logistics</groupId>
+            <artifactId>order-service-impl</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.datu.logistics</groupId>
+            <artifactId>order-view</artifactId>
+            <version>0.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
     </dependencies>
 
