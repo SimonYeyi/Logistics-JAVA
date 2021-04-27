@@ -3,11 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <properties>
-        <java.version>11</java.version>
-        <spring.cloud.version>2020.0.1</spring.cloud.version>
-    </properties>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -18,8 +13,14 @@
     <groupId>com.datu.logistics</groupId>
     <artifactId>parent</artifactId>
     <version>0.0.1</version>
-    <name>parent</name>
     <packaging>pom</packaging>
+
+    <name>parent</name>
+
+    <properties>
+        <java.version>11</java.version>
+        <spring.cloud.version>2020.0.1</spring.cloud.version>
+    </properties>
 
     <modules>
         <module>app-registry</module>

@@ -12,6 +12,7 @@
 
     <artifactId>app-registry</artifactId>
     <version>0.0.1</version>
+
     <name>app-registry</name>
 
     <dependencies>

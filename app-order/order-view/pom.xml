@@ -12,6 +12,7 @@
 
     <artifactId>order-view</artifactId>
     <version>0.0.1</version>
+
     <name>order-view</name>
 
     <dependencies>

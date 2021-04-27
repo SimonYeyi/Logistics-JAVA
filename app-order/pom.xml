@@ -12,9 +12,9 @@
 
     <artifactId>app-order</artifactId>
     <version>0.0.1</version>
-    <name>app-order</name>
-
     <packaging>pom</packaging>
+
+    <name>app-order</name>
 
     <modules>
         <module>order-domain</module>

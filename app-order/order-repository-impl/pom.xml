@@ -12,6 +12,7 @@
 
     <artifactId>order-repository-impl</artifactId>
     <version>0.0.1</version>
+
     <name>order-repository-impl</name>
 
     <dependencies>

@@ -12,5 +12,6 @@
 
     <artifactId>order-domain</artifactId>
     <version>0.0.1</version>
+
     <name>order-domain</name>
 </project>

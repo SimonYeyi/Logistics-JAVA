@@ -12,6 +12,7 @@
 
     <artifactId>app-gateway</artifactId>
     <version>0.0.1</version>
+
     <name>app-gateway</name>
 
     <dependencies>
