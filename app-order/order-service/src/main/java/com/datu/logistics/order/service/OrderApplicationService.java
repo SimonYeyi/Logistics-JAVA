@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 
-@FeignClient(value = "order", path = "order")
+@FeignClient(value = "order", path = "order", primary = false)
 public interface OrderApplicationService {
 
     @GetMapping("{id}/get")
