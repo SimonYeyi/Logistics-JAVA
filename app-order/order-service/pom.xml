@@ -7,7 +7,7 @@
         <groupId>com.datu.logistics</groupId>
         <artifactId>parent</artifactId>
         <version>0.0.1</version>
-        <relativePath/>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>order-service</artifactId>

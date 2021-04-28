@@ -7,13 +7,13 @@
         <groupId>com.datu.logistics</groupId>
         <artifactId>parent</artifactId>
         <version>0.0.1</version>
-        <relativePath/>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>app-gateway</artifactId>
+    <artifactId>gateway-app</artifactId>
     <version>0.0.1</version>
 
-    <name>app-gateway</name>
+    <name>gateway-app</name>
 
     <properties>
         <java.version>8</java.version>

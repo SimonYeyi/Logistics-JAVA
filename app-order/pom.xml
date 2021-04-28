@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.datu.logistics</groupId>
-    <artifactId>app-order</artifactId>
+    <artifactId>order-parent</artifactId>
     <version>0.0.1</version>
     <packaging>pom</packaging>
 
-    <name>app-order</name>
+    <name>order-parent</name>
 
     <modules>
         <module>order-domain</module>
