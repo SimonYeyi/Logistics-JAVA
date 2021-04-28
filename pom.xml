@@ -18,8 +18,9 @@
     <name>parent</name>
 
     <properties>
-        <java.version>11</java.version>
-        <spring.cloud.version>2020.0.1</spring.cloud.version>
+        <java-version>8</java-version>
+        <spring.cloud-version>2020.0.1</spring.cloud-version>
+        <java.version>${java-version}</java.version>
     </properties>
 
     <modules>
@@ -33,7 +34,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
+                <version>${spring.cloud-version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -48,4 +49,23 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>dockerfile-maven-plugin</artifactId>
+                    <version>1.4.13</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.bouncycastle</groupId>
+                            <artifactId>bcprov-jdk15on</artifactId>
+                            <version>1.64</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

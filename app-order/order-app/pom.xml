@@ -15,6 +15,10 @@
 
     <name>order-app</name>
 
+    <properties>
+        <java.version>${java-version}</java.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.datu.logistics</groupId>
@@ -33,13 +37,4 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>

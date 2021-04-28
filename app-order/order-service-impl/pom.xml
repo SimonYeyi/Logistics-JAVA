@@ -15,6 +15,10 @@
 
     <name>order-service-impl</name>
 
+    <properties>
+        <java.version>${java-version}</java.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.datu.logistics</groupId>

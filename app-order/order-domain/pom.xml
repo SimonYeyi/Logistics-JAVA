@@ -14,4 +14,8 @@
     <version>0.0.1</version>
 
     <name>order-domain</name>
+
+    <properties>
+        <java.version>${java-version}</java.version>
+    </properties>
 </project>
