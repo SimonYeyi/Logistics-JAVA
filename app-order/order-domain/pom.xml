@@ -16,6 +16,6 @@
     <name>order-domain</name>
 
     <properties>
-        <java.version>${java-version}</java.version>
+        <java.version>8</java.version>
     </properties>
 </project>

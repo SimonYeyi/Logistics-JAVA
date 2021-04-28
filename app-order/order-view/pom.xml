@@ -16,7 +16,7 @@
     <name>order-view</name>
 
     <properties>
-        <java.version>${java-version}</java.version>
+        <java.version>8</java.version>
     </properties>
 
     <dependencies>
