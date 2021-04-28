@@ -1,8 +1,8 @@
 version: '3'
+
 services:
   registry-app:
     restart: "on-failure"
-    build: ./app-registry               # 创建镜像，会自动执行指定目录下文件夹中的Dockerfile文件
     image: "logistics-registry-app:0.0.1"  # 镜像名：标签名
     hostname: registry      # 注册中心的hostname一定要有，且必须和代码中配置文件里的hostname一致
     networks:
@@ -12,7 +12,6 @@ services:
     container_name: registry-app
   gateway-app:
     restart: "on-failure"
-    build: ./app-gateway
     image: "logistics-gateway-app:0.0.1"
     hostname: registry
     networks:
@@ -24,7 +23,6 @@ services:
       - registry-app
   order-app:
     restart: "on-failure"
-    build: ./app-order/order-app
     image: "logistics-order-app:0.0.1"
     hostname: registry
     networks:
