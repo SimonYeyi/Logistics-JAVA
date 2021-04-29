@@ -8,33 +8,11 @@ spring:
     name: order
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=GMT%2B8&createDatabaseIfNotExist=true
+    url: jdbc:mysql://${eureka.instance.hostname}:3306/test?useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&createDatabaseIfNotExist=true
     username: root
     type: com.alibaba.druid.pool.DruidDataSource
 
 eureka:
   client:
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:4000/eureka/
-
----
-spring:
-  profiles:
-    active: local
-  datasource:
-    password: jiangqingyuan
-
-eureka:
-  instance:
-    hostname: localhost
-
----
-spring:
-  profiles:
-    active: prod
-  datasource:
-    password: jiangqingyuan
-
-eureka:
-  instance:
-    hostname: 172.18.94.65
+      defaultZone: http://${eureka.instance.hostname}:4000/eureka

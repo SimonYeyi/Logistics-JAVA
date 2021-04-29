@@ -15,22 +15,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:4000/eureka/
-
----
-spring:
-  profiles:
-    active: local
-
-eureka:
-  instance:
-    hostname: localhost
-
----
-spring:
-  profiles:
-    active: prod
-
-eureka:
-  instance:
-    hostname: 172.18.94.65
+      defaultZone: http://${eureka.instance.hostname}:4000/eureka

@@ -1,0 +1,7 @@
+eureka:
+  instance:
+    hostname: localhost
+
+spring:
+  datasource:
+    password: jiangqingyuan
