@@ -13,6 +13,8 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:4000/eureka
