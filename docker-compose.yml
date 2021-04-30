@@ -36,13 +36,14 @@ services:
     container_name: order-app
     depends_on:
       - registry-app
+      - gateway-app
       - mysql
     links:
       - mysql
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
   mysql:
-    restart: "no"
+    restart: "on-failure"
     image: mysql:8.0.23
     networks:
       - app-net
@@ -53,6 +54,16 @@ services:
       - ${DOCKER_DIR}/var/lib/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  redis:
+    restart: "on-failure"
+    image: redis:6.2.1
+    networks:
+      - app-net
+    ports:
+      - 6379:6379
+    container_name: redis
+    volumes:
+      - ${DOCKER_DIR}/data:/data
 
 networks:
   app-net:
