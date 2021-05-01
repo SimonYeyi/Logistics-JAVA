@@ -1,0 +1,7 @@
+eureka:
+  instance:
+    hostname: 10.0.10.147
+
+spring:
+  datasource:
+    password: jiangqingyuan

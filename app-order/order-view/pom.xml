@@ -5,9 +5,9 @@
 
     <parent>
         <groupId>com.datu.logistics</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>order-parent</artifactId>
         <version>0.0.1</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>order-view</artifactId>

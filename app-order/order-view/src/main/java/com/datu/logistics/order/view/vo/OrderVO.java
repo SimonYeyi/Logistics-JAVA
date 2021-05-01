@@ -6,10 +6,10 @@ import lombok.Data;
 import java.math.BigInteger;
 
 @Data
-public class OrderVo {
+public class OrderVO {
     private final BigInteger orderId;
 
-    public OrderVo(OrderDTO orderDTO) {
+    public OrderVO(OrderDTO orderDTO) {
         this.orderId = orderDTO.getOrderId();
     }
 }

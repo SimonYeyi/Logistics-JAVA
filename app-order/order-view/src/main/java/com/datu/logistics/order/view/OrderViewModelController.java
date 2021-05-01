@@ -2,7 +2,7 @@ package com.datu.logistics.order.view;
 
 import com.datu.logistics.order.service.OrderApplicationService;
 import com.datu.logistics.order.service.dto.OrderDTO;
-import com.datu.logistics.order.view.vo.OrderVo;
+import com.datu.logistics.order.view.vo.OrderVO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +17,8 @@ public class OrderViewModelController {
     private OrderApplicationService orderApplicationService;
 
     @GetMapping("view-model")
-    public OrderVo getOrderViewModel(@RequestParam("orderId") BigInteger orderId) {
+    public OrderVO getOrderViewModel(@RequestParam("orderId") BigInteger orderId) {
         OrderDTO order = orderApplicationService.searchOrder(orderId);
-        return new OrderVo(order);
+        return new OrderVO(order);
     }
 }
