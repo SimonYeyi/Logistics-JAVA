@@ -10,5 +10,8 @@ import java.math.BigInteger;
 public interface OrderApplicationService {
 
     @GetMapping("{id}/get")
-    OrderDTO searchOrder(@PathVariable("id") BigInteger id);
+    OrderDTO searchOrder(@PathVariable("id") Long id);
+
+    @PostMapping("create")
+    OrderDTO createOrder(OrderDTO orderDTO);
 }

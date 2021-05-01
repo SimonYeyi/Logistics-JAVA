@@ -17,7 +17,7 @@ public class OrderViewModelController {
     private OrderApplicationService orderApplicationService;
 
     @GetMapping("view-model")
-    public OrderVO getOrderViewModel(@RequestParam("orderId") BigInteger orderId) {
+    public OrderVO getOrderViewModel(@RequestParam("orderId") Long orderId) {
         OrderDTO order = orderApplicationService.searchOrder(orderId);
         return new OrderVO(order);
     }

@@ -53,6 +53,7 @@ services:
     volumes:
       - ${DOCKER_DIR}/var/lib/mysql:/var/lib/mysql
     environment:
+      TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
   redis:
     restart: "on-failure"
