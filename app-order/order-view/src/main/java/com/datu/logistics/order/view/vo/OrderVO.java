@@ -8,17 +8,16 @@ import java.util.Date;
 
 @Data
 public class OrderVO {
-    private long orderId;
     private String orderNo;
-    private String transferOrderNo;
+    private String delegateOrderNo;
     private Date orderTime;
     private String destination;
 
     public OrderVO(OrderDTO orderDTO) {
-        this.orderId = orderDTO.getOrderId();
-        this.orderNo = orderDTO.getOrderNo();
-        this.transferOrderNo = orderDTO.getTransferOrderNo();
-        this.orderTime = orderDTO.getOrderTime();
-        this.destination = orderDTO.getDestination();
+        this.orderNo = orderDTO.getNo();
+        this.delegateOrderNo = orderDTO.getDelegateOrders().stream()
+                .findFirst().orElse(null).getNo();
+        this.orderTime = orderDTO.getTime();
+        this.destination = orderDTO.getTo().getAddress();
     }
 }

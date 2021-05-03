@@ -1,17 +1,18 @@
 package com.datu.logistics.order.service.dto;
 
 import lombok.*;
-import org.springframework.core.annotation.Order;
 
-import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 @Data
-@NoArgsConstructor
-public class OrderDTO {
-    private long orderId;
-    private String orderNo;
-    private String transferOrderNo;
-    private Date orderTime;
-    private String destination;
+public final class OrderDTO {
+    private String no;
+    private Date time;
+    private int amount;
+    private int amountPaid;
+    private ContactsDTO from;
+    private ContactsDTO to;
+    private List<GoodsDTO> goods;
+    private List<DelegateOrderDTO> delegateOrders;
 }

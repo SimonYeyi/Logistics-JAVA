@@ -7,20 +7,35 @@
         http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.2.xsd">
 
     <changeSet author="Simon" id="20210501121100">
-        <createTable tableName="order0">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="actor_pkey"/>
-            </column>
+        <createTable tableName="order_">
             <column name="no" type="CHAR(32)">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="order_pkey"/>
             </column>
-            <column name="transfer_no" type="CHAR(32)">
-                <constraints unique="true"/>
-            </column>
-            <column name="time" type="DATETIME">
+            <column name="amount" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="destination" type="VARCHAR(64)">
+            <column name="amount_paid" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_full_name" type="CHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_phone" type="CHAR(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_address" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_full_name" type="CHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_phone" type="CHAR(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_address" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
         </createTable>

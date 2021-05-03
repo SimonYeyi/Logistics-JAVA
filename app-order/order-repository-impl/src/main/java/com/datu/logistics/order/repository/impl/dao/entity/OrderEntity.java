@@ -1,38 +1,31 @@
 package com.datu.logistics.order.repository.impl.dao.entity;
 
-import com.datu.logistics.order.domain.model.Order;
+import com.datu.logistics.order.domain.model.DelegateOrder;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Set;
 
 @Data
-@Entity(name = "order0")
+@Entity
+@Table(name = "order_", schema = "logistics_order")
 public class OrderEntity {
     @Id
-    private Long id;
     private String no;
-    private String transferNo;
+    private int amount;
+    private int amountPaid;
+    private String fromFullName;
+    private String fromPhone;
+    private String fromAddress;
+    private String toFullName;
+    private String toPhone;
+    private String toAddress;
     private Date time;
-    private String destination;
 
-    public static OrderEntity newInstance(Order order) {
-        OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setId(order.getId());
-        orderEntity.setNo(order.getNo());
-        orderEntity.setTransferNo(order.getTransferNo());
-        orderEntity.setTime(order.getTime());
-        orderEntity.setDestination(order.getDestination());
-        return orderEntity;
-    }
-
-    public Order toOrder() {
-        return new Order(
-                id,
-                no,
-                transferNo,
-                time,
-                destination
-        );
-    }
+    @OneToMany(mappedBy = "id")
+    private Set<GoodsEntity> goodsEntities;
+    @OneToMany(mappedBy = "no")
+    private Set<DelegateOrderEntity> delegateOrders;
 }

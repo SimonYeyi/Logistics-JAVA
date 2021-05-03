@@ -1,13 +1,19 @@
 package com.datu.logistics.order.repository.impl;
 
+import com.datu.logistics.order.domain.model.Contacts;
+import com.datu.logistics.order.domain.model.DelegateOrder;
+import com.datu.logistics.order.domain.model.Goods;
 import com.datu.logistics.order.domain.model.Order;
 import com.datu.logistics.order.domain.repository.OrderRepository;
 import com.datu.logistics.order.repository.impl.dao.OrderDAO;
+import com.datu.logistics.order.repository.impl.dao.entity.DelegateOrderEntity;
+import com.datu.logistics.order.repository.impl.dao.entity.GoodsEntity;
 import com.datu.logistics.order.repository.impl.dao.entity.OrderEntity;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderRepositoryImpl implements OrderRepository {
@@ -19,15 +25,86 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Order orderOf(long id) {
+    public Order orderOf(String id) {
         Optional<OrderEntity> orderEntity = orderDAO.findById(id);
-        return orderEntity.map(OrderEntity::toOrder).orElse(null);
+        return orderEntity.map(OrderRepositoryImpl::toOrder).orElse(null);
     }
 
     @Override
-    public Order save(Order order) {
-        OrderEntity orderEntity = orderDAO.saveAndFlush(OrderEntity.newInstance(order));
-        order.saved(orderEntity.getId());
-        return order;
+    public void save(Order order) {
+        orderDAO.saveAndFlush(toOrderEntity(order));
+    }
+
+    private static OrderEntity toOrderEntity(Order order) {
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setNo(order.getNo());
+        orderEntity.setAmount(order.getAmount());
+        orderEntity.setAmountPaid(order.getAmountPaid());
+        orderEntity.setTime(order.getTime());
+        orderEntity.setFromFullName(order.getFrom().getFullName());
+        orderEntity.setFromPhone(order.getFrom().getPhone());
+        orderEntity.setFromAddress(order.getFrom().getAddress());
+        orderEntity.setFromFullName(order.getTo().getFullName());
+        orderEntity.setFromPhone(order.getTo().getPhone());
+        orderEntity.setFromAddress(order.getTo().getAddress());
+        orderEntity.setDelegateOrders(
+                order.getDelegateOrders().stream().map(it -> {
+                    DelegateOrderEntity delegateOrderEntity = new DelegateOrderEntity();
+                    delegateOrderEntity.setNo(it.getNo());
+                    delegateOrderEntity.setCorporateName(it.getCorporateName());
+                    delegateOrderEntity.setAmount(it.getAmount());
+                    delegateOrderEntity.setTime(it.getTime());
+                    GoodsEntity goodsEntity = toGoodsEntity(it.getGoods());
+                    delegateOrderEntity.setGoodsEntity(goodsEntity);
+                    return delegateOrderEntity;
+                }).collect(Collectors.toSet())
+        );
+        Set<GoodsEntity> goodsEntities = order.getGoods().stream()
+                .map(OrderRepositoryImpl::toGoodsEntity)
+                .collect(Collectors.toSet());
+        orderEntity.setGoodsEntities(goodsEntities);
+        return orderEntity;
+    }
+
+    public static Order toOrder(OrderEntity orderEntity) {
+        return new Order(
+                orderEntity.getNo(),
+                orderEntity.getAmountPaid(),
+                orderEntity.getTime(),
+                new Contacts(orderEntity.getFromFullName(),
+                        orderEntity.getFromPhone(),
+                        orderEntity.getFromAddress()),
+                new Contacts(orderEntity.getToFullName(),
+                        orderEntity.getToPhone(),
+                        orderEntity.getToAddress()),
+                orderEntity.getGoodsEntities().stream()
+                        .map(OrderRepositoryImpl::toGoods)
+                        .collect(Collectors.toList()),
+                orderEntity.getDelegateOrders().stream().map(it -> new DelegateOrder(
+                        it.getNo(),
+                        it.getCorporateName(),
+                        it.getAmount(),
+                        it.getTime(),
+                        toGoods(it.getGoodsEntity())
+                )).collect(Collectors.toList()));
+    }
+
+    private static Goods toGoods(GoodsEntity goodsEntity) {
+        return new Goods(
+                goodsEntity.getName(),
+                goodsEntity.getWeight(),
+                goodsEntity.getVolume(),
+                goodsEntity.getAmount()
+        );
+    }
+
+    private static GoodsEntity toGoodsEntity(Goods goods) {
+        GoodsEntity goodsEntity = new GoodsEntity();
+        goodsEntity.setId(goods.getId());
+        goodsEntity.setName(goods.getName());
+        goodsEntity.setWeight(goods.getWeight());
+        goodsEntity.setVolume(goods.getVolume());
+        goodsEntity.setAmount(goods.getAmount());
+        return goodsEntity;
     }
 }

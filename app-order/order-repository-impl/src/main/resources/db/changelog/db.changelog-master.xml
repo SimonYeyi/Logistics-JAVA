@@ -7,4 +7,6 @@
         http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.2.xsd">
 
     <include file="classpath:db/changelog/order/db.changelog.xml"/>
+    <include file="classpath:db/changelog/goods/db.changelog.xml"/>
+    <include file="classpath:db/changelog/delegate_order/db.changelog.xml"/>
 </databaseChangeLog>

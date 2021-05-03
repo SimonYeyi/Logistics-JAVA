@@ -8,7 +8,7 @@ spring:
     name: track
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${eureka.instance.hostname}:3306/logistics?useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&createDatabaseIfNotExist=true
+    url: jdbc:mysql://${eureka.instance.hostname}:3306/logistics_track?useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&createDatabaseIfNotExist=true
     username: root
     type: com.alibaba.druid.pool.DruidDataSource
   liquibase:

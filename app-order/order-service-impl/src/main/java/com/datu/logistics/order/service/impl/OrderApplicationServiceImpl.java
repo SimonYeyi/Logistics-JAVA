@@ -1,15 +1,24 @@
 package com.datu.logistics.order.service.impl;
 
+import com.datu.logistics.order.domain.model.Contacts;
+import com.datu.logistics.order.domain.model.DelegateOrder;
+import com.datu.logistics.order.domain.model.Goods;
 import com.datu.logistics.order.domain.model.Order;
 import com.datu.logistics.order.domain.repository.OrderRepository;
 import com.datu.logistics.order.service.OrderApplicationService;
+import com.datu.logistics.order.service.command.OrderCreateCommand;
+import com.datu.logistics.order.service.command.OrderDelegatedCommand;
+import com.datu.logistics.order.service.dto.ContactsDTO;
+import com.datu.logistics.order.service.dto.GoodsDTO;
 import com.datu.logistics.order.service.dto.OrderDTO;
 import com.datu.logistics.order.service.exception.OrderNotFoundException;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.math.BigInteger;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Primary
 @RestController
@@ -19,35 +28,89 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     private OrderRepository orderRepository;
 
     @Override
-    public OrderDTO searchOrder(Long orderId) {
-        Order order = orderRepository.orderOf(orderId);
+    public OrderDTO createOrder(OrderCreateCommand orderCreateCommand) {
+        Order order = Order.create(
+                orderCreateCommand.getOrderNo(),
+                orderCreateCommand.getOrderAmountPaid(),
+                orderCreateCommand.getOrderTime(),
+                toContacts(orderCreateCommand.getFrom()),
+                toContacts(orderCreateCommand.getTo()),
+                orderCreateCommand.getGoods().stream()
+                        .map(OrderApplicationServiceImpl::toGoods)
+                        .collect(Collectors.toList())
+        );
+        orderRepository.save(order);
+        return toOrderDTO(order);
+    }
+
+    @Override
+    public OrderDTO searchOrder(String orderNo) {
+        Order order = orderRepository.orderOf(orderNo);
         if (order == null) {
-            throw new OrderNotFoundException(orderId);
+            throw new OrderNotFoundException(orderNo);
         }
         return toOrderDTO(order);
     }
 
     @Override
-    public OrderDTO createOrder(OrderDTO orderDTO) {
-        Order order = Order.create(
-                orderDTO.getOrderNo(),
-                orderDTO.getOrderTime(),
-                orderDTO.getDestination()
-        );
-        if (orderDTO.getTransferOrderNo() != null) {
-            order.transport(orderDTO.getTransferOrderNo());
+    public OrderDTO settleOrder(String orderNo) {
+        Order order = orderRepository.orderOf(orderNo);
+        if (order == null) {
+            throw new OrderNotFoundException(orderNo);
         }
+        order.settle();
         orderRepository.save(order);
         return toOrderDTO(order);
     }
 
-    private OrderDTO toOrderDTO(Order order) {
+    @Override
+    public OrderDTO delegatedOrder(String orderNo, OrderDelegatedCommand orderDelegatedCommands) {
+        Order order = orderRepository.orderOf(orderNo);
+        if (order == null) {
+            throw new OrderNotFoundException(orderNo);
+        }
+        List<DelegateOrder> delegateOrders = orderDelegatedCommands.getDelegateItems().stream()
+                .map(delegateItem -> new DelegateOrder(
+                        delegateItem.getDelegateOrderNo(),
+                        delegateItem.getDelegateCorporateName(),
+                        delegateItem.getDelegateAmount(),
+                        delegateItem.getDelegateTime(),
+                        order.getGoods(delegateItem.getDelegateGoodsId())
+                ))
+                .collect(Collectors.toList());
+        order.delegated(delegateOrders);
+        orderRepository.save(order);
+        return toOrderDTO(order);
+    }
+
+    private static Goods toGoods(GoodsDTO goodsDTO) {
+        return new Goods(goodsDTO.getName(),
+                goodsDTO.getWeight(),
+                goodsDTO.getVolume(),
+                goodsDTO.getAmount());
+    }
+
+    private static Contacts toContacts(ContactsDTO contactsDTO) {
+        return new Contacts(
+                contactsDTO.getFullName(),
+                contactsDTO.getPhone(),
+                contactsDTO.getAddress()
+        );
+    }
+
+    private static OrderDTO toOrderDTO(Order order) {
         OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setOrderId(order.getId());
-        orderDTO.setOrderNo(order.getNo());
-        orderDTO.setTransferOrderNo(order.getTransferNo());
-        orderDTO.setOrderTime(order.getTime());
-        orderDTO.setDestination(order.getDestination());
+        BeanCopier.create(Order.class, OrderDTO.class, false)
+                .copy(order, orderDTO, null);
+        orderDTO.setAmount(order.getAmount());
+        ContactsDTO from = new ContactsDTO();
+        BeanCopier.create(Contacts.class, ContactsDTO.class, false)
+                .copy(order.getFrom(), from, null);
+        orderDTO.setFrom(from);
+        ContactsDTO to = new ContactsDTO();
+        BeanCopier.create(Contacts.class, ContactsDTO.class, false)
+                .copy(order.getTo(), to, null);
+        orderDTO.setTo(to);
         return orderDTO;
     }
 }
