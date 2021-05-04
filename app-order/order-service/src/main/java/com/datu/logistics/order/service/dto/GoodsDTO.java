@@ -4,6 +4,7 @@ import lombok.*;
 
 @Data
 public final class GoodsDTO {
+    private Long id;
     private String name;
     private int weight;
     private int volume;

@@ -9,9 +9,11 @@ import javax.persistence.*;
 @Table(name = "goods", schema = "logistics_order")
 public class GoodsEntity {
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private int weight;
     private int volume;
     private int amount;
+    private String orderNo;
 }

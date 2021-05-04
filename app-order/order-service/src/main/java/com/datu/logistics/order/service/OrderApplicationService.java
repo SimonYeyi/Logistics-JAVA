@@ -19,6 +19,9 @@ public interface OrderApplicationService {
     @GetMapping("{orderNo}/get")
     OrderDTO searchOrder(@PathVariable("orderNo") String orderNo);
 
+    @GetMapping("list/get")
+    List<OrderDTO> searchOrders(@RequestParam("orderNos") List<String> orderNos);
+
     @PatchMapping("{orderNo}/settle")
     OrderDTO settleOrder(@PathVariable("orderNo") String orderNo);
 

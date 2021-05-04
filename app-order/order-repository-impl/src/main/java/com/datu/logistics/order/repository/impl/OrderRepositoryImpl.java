@@ -31,8 +31,9 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void save(Order order) {
-        orderDAO.saveAndFlush(toOrderEntity(order));
+    public Order save(Order order) {
+        OrderEntity orderEntity = orderDAO.saveAndFlush(toOrderEntity(order));
+        return toOrder(orderEntity);
     }
 
     private static OrderEntity toOrderEntity(Order order) {
@@ -44,9 +45,9 @@ public class OrderRepositoryImpl implements OrderRepository {
         orderEntity.setFromFullName(order.getFrom().getFullName());
         orderEntity.setFromPhone(order.getFrom().getPhone());
         orderEntity.setFromAddress(order.getFrom().getAddress());
-        orderEntity.setFromFullName(order.getTo().getFullName());
-        orderEntity.setFromPhone(order.getTo().getPhone());
-        orderEntity.setFromAddress(order.getTo().getAddress());
+        orderEntity.setToFullName(order.getTo().getFullName());
+        orderEntity.setToPhone(order.getTo().getPhone());
+        orderEntity.setToAddress(order.getTo().getAddress());
         orderEntity.setDelegateOrders(
                 order.getDelegateOrders().stream().map(it -> {
                     DelegateOrderEntity delegateOrderEntity = new DelegateOrderEntity();
@@ -54,13 +55,14 @@ public class OrderRepositoryImpl implements OrderRepository {
                     delegateOrderEntity.setCorporateName(it.getCorporateName());
                     delegateOrderEntity.setAmount(it.getAmount());
                     delegateOrderEntity.setTime(it.getTime());
-                    GoodsEntity goodsEntity = toGoodsEntity(it.getGoods());
+                    delegateOrderEntity.setOrderNo(order.getNo());
+                    GoodsEntity goodsEntity = toGoodsEntity(it.getGoods(), order.getNo());
                     delegateOrderEntity.setGoodsEntity(goodsEntity);
                     return delegateOrderEntity;
                 }).collect(Collectors.toSet())
         );
         Set<GoodsEntity> goodsEntities = order.getGoods().stream()
-                .map(OrderRepositoryImpl::toGoodsEntity)
+                .map(it -> toGoodsEntity(it, order.getNo()))
                 .collect(Collectors.toSet());
         orderEntity.setGoodsEntities(goodsEntities);
         return orderEntity;
@@ -80,17 +82,19 @@ public class OrderRepositoryImpl implements OrderRepository {
                 orderEntity.getGoodsEntities().stream()
                         .map(OrderRepositoryImpl::toGoods)
                         .collect(Collectors.toList()),
-                orderEntity.getDelegateOrders().stream().map(it -> new DelegateOrder(
-                        it.getNo(),
-                        it.getCorporateName(),
-                        it.getAmount(),
-                        it.getTime(),
-                        toGoods(it.getGoodsEntity())
-                )).collect(Collectors.toList()));
+                orderEntity.getDelegateOrders().stream()
+                        .map(it -> new DelegateOrder(
+                                it.getNo(),
+                                it.getCorporateName(),
+                                it.getAmount(),
+                                it.getTime(),
+                                toGoods(it.getGoodsEntity())
+                        )).collect(Collectors.toList()));
     }
 
     private static Goods toGoods(GoodsEntity goodsEntity) {
         return new Goods(
+                goodsEntity.getId(),
                 goodsEntity.getName(),
                 goodsEntity.getWeight(),
                 goodsEntity.getVolume(),
@@ -98,13 +102,14 @@ public class OrderRepositoryImpl implements OrderRepository {
         );
     }
 
-    private static GoodsEntity toGoodsEntity(Goods goods) {
+    private static GoodsEntity toGoodsEntity(Goods goods, String orderNo) {
         GoodsEntity goodsEntity = new GoodsEntity();
         goodsEntity.setId(goods.getId());
         goodsEntity.setName(goods.getName());
         goodsEntity.setWeight(goods.getWeight());
         goodsEntity.setVolume(goods.getVolume());
         goodsEntity.setAmount(goods.getAmount());
+        goodsEntity.setOrderNo(orderNo);
         return goodsEntity;
     }
 }

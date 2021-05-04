@@ -7,5 +7,5 @@ import java.math.BigInteger;
 public interface OrderRepository {
     Order orderOf(String id);
 
-    void save(Order order);
+    Order save(Order order);
 }

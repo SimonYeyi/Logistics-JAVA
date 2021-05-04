@@ -1,11 +1,11 @@
 package com.datu.logistics.order.repository.impl.dao.entity;
 
-import com.datu.logistics.order.domain.model.DelegateOrder;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -24,8 +24,8 @@ public class OrderEntity {
     private String toAddress;
     private Date time;
 
-    @OneToMany(mappedBy = "id")
-    private Set<GoodsEntity> goodsEntities;
-    @OneToMany(mappedBy = "no")
-    private Set<DelegateOrderEntity> delegateOrders;
+    @OneToMany(mappedBy = "orderNo", cascade = CascadeType.ALL)
+    private Set<GoodsEntity> goodsEntities = new HashSet<>();
+    @OneToMany(mappedBy = "orderNo", cascade = CascadeType.ALL)
+    private Set<DelegateOrderEntity> delegateOrders = new HashSet<>();
 }
