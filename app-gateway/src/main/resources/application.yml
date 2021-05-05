@@ -11,6 +11,10 @@ spring:
           uri: lb://order
           predicates:
             - Path=/order/**
+        - id: track
+          uri: lb://track
+          predicates:
+            - Path=/track/**
 
 eureka:
   instance:
