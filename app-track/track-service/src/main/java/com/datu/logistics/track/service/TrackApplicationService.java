@@ -1,18 +1,23 @@
 package com.datu.logistics.track.service;
 
 import com.datu.logistics.track.service.dto.TrackDTO;
+import com.datu.logistics.track.service.dto.TracksDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 @FeignClient(value = "track", path = "track", primary = false)
 public interface TrackApplicationService {
 
-    @GetMapping("get")
-    TrackDTO searchTrack(@RequestParam("orderId") BigInteger orderId);
+    @PostMapping("create")
+    TrackDTO createTrack(@RequestParam("orderNo") String orderNo, @RequestBody TrackDTO trackDTO);
 
     @GetMapping("list/get")
-    List<TrackDTO> searchTracks(@RequestParam("orderIds") List<BigInteger> orderIds);
+    TracksDTO searchTracks(@RequestParam("orderNo") String orderNo);
+
+    @GetMapping("list/multi/get")
+    List<TracksDTO> searchMultiTracks(@RequestParam("orderNos") List<String> orderNos);
 }

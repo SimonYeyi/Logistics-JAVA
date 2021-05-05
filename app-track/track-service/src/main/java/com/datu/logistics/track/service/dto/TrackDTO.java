@@ -3,11 +3,12 @@ package com.datu.logistics.track.service.dto;
 import lombok.*;
 
 import java.math.BigInteger;
+import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class TrackDTO {
-    @NonNull
-    private BigInteger trackId;
+    private Long id;
+    private String area;
+    private String event;
+    private Date time;
 }

@@ -3,7 +3,6 @@ package com.datu.logistics.order.repository.impl.dao.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;

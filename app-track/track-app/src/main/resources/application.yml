@@ -14,8 +14,6 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

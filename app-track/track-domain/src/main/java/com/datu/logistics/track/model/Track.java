@@ -1,16 +1,21 @@
 package com.datu.logistics.track.model;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigInteger;
+import java.util.Date;
 
 @Getter
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Track {
-    @NonNull
-    private final BigInteger id;
+    private final Long id;
+    private final String area;
+    private final String event;
+    private final Date time;
+    private final String orderNo;
+
+    public static Track create(Long trackId, String trackArea, String trackEvent, String orderNo) {
+        return new Track(trackId, trackArea, trackEvent, new Date(), orderNo);
+    }
 }
