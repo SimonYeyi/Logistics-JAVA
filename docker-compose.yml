@@ -12,6 +12,7 @@ services:
     container_name: registry-app
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}       # spring-boot环境
+      EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
   gateway-app:
     restart: "on-failure"
     image: "logistics-gateway-app:0.0.1"
@@ -25,6 +26,7 @@ services:
       - registry-app
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
   order-app:
     restart: "on-failure"
     image: "logistics-order-app:0.0.1"
@@ -36,12 +38,12 @@ services:
     container_name: order-app
     depends_on:
       - registry-app
-      - gateway-app
       - mysql
     links:
       - mysql
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
   track-app:
     restart: "on-failure"
     image: "logistics-track-app:0.0.1"
@@ -53,12 +55,12 @@ services:
     container_name: track-app
     depends_on:
       - registry-app
-      - gateway-app
       - mysql
     links:
       - mysql
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
   mysql:
     restart: "on-failure"
     image: mysql:8.0.23
