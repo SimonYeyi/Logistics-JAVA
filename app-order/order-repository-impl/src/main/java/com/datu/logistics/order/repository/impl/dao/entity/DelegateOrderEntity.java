@@ -12,11 +12,13 @@ import java.util.Objects;
 @Table(name = "delegate_order", schema = "logistics_order")
 public class DelegateOrderEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String no;
     private String corporateName;
     private int amount;
     private Date time;
-    private String orderNo;
+    private Long orderId;
     @OneToOne
     @JoinColumn(name = "goods_id", referencedColumnName = "id", nullable = false)
     private GoodsEntity goodsEntity;

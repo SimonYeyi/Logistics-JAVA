@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TrackDAO extends JpaRepository<TrackEntity,Long> {
+public interface TrackDAO extends JpaRepository<TrackEntity, Long> {
 
-    List<TrackEntity> findAllByOrderNo(String orderNo);
+    List<TrackEntity> findAllByOrderId(Long orderId);
 }

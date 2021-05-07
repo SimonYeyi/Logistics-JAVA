@@ -8,8 +8,11 @@
 
     <changeSet author="Simon" id="20210501121100">
         <createTable tableName="order_">
-            <column name="no" type="CHAR(32)">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="order_pkey"/>
+            </column>
+            <column name="no" type="CHAR(32)">
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="amount" type="INT">
                 <constraints nullable="false"/>

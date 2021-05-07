@@ -13,9 +13,9 @@ public class Track {
     private final String area;
     private final String event;
     private final Date time;
-    private final String orderNo;
+    private final Long orderId;
 
-    public static Track create(Long trackId, String trackArea, String trackEvent, String orderNo) {
-        return new Track(trackId, trackArea, trackEvent, new Date(), orderNo);
+    public static Track create(Long trackId, String trackArea, String trackEvent, Long orderId) {
+        return new Track(trackId, trackArea, trackEvent, new Date(), orderId);
     }
 }

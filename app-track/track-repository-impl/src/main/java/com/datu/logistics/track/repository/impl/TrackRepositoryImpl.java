@@ -25,8 +25,8 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     @Override
-    public List<Track> tracks(String orderNo) {
-        return trackDAO.findAllByOrderNo(orderNo).stream()
+    public List<Track> tracks(Long orderId) {
+        return trackDAO.findAllByOrderId(orderId).stream()
                 .map(TrackRepositoryImpl::toTrack)
                 .collect(Collectors.toList());
     }
@@ -37,7 +37,7 @@ public class TrackRepositoryImpl implements TrackRepository {
         trackEntity.setArea(track.getArea());
         trackEntity.setEvent(track.getEvent());
         trackEntity.setTime(track.getTime());
-        trackEntity.setOrderNo(track.getOrderNo());
+        trackEntity.setOrderId(track.getOrderId());
         return trackEntity;
     }
 
@@ -47,7 +47,7 @@ public class TrackRepositoryImpl implements TrackRepository {
                 trackEntity.getArea(),
                 trackEntity.getEvent(),
                 trackEntity.getTime(),
-                trackEntity.getOrderNo()
+                trackEntity.getOrderId()
         );
     }
 }

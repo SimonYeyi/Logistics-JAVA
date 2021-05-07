@@ -9,5 +9,5 @@ public interface TrackRepository {
 
     Track save(Track track);
 
-    List<Track> tracks(String orderNo);
+    List<Track> tracks(Long orderId);
 }

@@ -8,6 +8,7 @@ import java.util.Date;
 @ToString
 @AllArgsConstructor
 public class DelegateOrder {
+    private final Long id;
     private final String no;
     private final String corporateName;
     private final int amount;

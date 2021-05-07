@@ -12,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Order implements Comparable<Order> {
+    private final Long id;
     private final String no;
     private int amountPaid;
     private final Date time;
@@ -21,7 +22,7 @@ public class Order implements Comparable<Order> {
     private List<DelegateOrder> delegateOrders = Collections.emptyList();
 
     public static Order create(String orderNo, int orderAmountPaid, Date orderTime, Contacts from, Contacts to, List<Goods> goodsList) {
-        Order order = new Order(orderNo, orderTime, from, to, goodsList);
+        Order order = new Order(null, orderNo, orderTime, from, to, goodsList);
         order.amountPaid = orderAmountPaid;
         return order;
     }

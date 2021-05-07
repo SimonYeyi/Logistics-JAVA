@@ -13,7 +13,7 @@ import java.util.Map;
 public interface TrackApplicationService {
 
     @PostMapping("create")
-    TrackDTO createTrack(@RequestParam("orderNo") String orderNo, @RequestBody TrackDTO trackDTO);
+    TrackDTO createTrack(@RequestParam("orderId") Long orderId, @RequestBody TrackDTO trackDTO);
 
     @GetMapping("list/get")
     TracksDTO searchTracks(@RequestParam("orderNo") String orderNo);

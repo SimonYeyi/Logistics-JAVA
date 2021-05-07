@@ -23,8 +23,8 @@
             <column name="amount" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="order_no" type="CHAR(32)">
-                <constraints nullable="false" foreignKeyName="goods_order_fkey" references="order_(no)"/>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="goods_order_fkey" references="order_(id)"/>
             </column>
         </createTable>
     </changeSet>

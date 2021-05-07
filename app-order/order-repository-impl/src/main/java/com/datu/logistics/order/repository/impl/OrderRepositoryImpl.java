@@ -25,8 +25,8 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Order orderOf(String id) {
-        Optional<OrderEntity> orderEntity = orderDAO.findById(id);
+    public Order orderOf(String no) {
+        Optional<OrderEntity> orderEntity = orderDAO.findByNo(no);
         return orderEntity.map(OrderRepositoryImpl::toOrder).orElse(null);
     }
 
@@ -55,14 +55,14 @@ public class OrderRepositoryImpl implements OrderRepository {
                     delegateOrderEntity.setCorporateName(it.getCorporateName());
                     delegateOrderEntity.setAmount(it.getAmount());
                     delegateOrderEntity.setTime(it.getTime());
-                    delegateOrderEntity.setOrderNo(order.getNo());
-                    GoodsEntity goodsEntity = toGoodsEntity(it.getGoods(), order.getNo());
+                    delegateOrderEntity.setOrderId(order.getId());
+                    GoodsEntity goodsEntity = toGoodsEntity(it.getGoods(), order.getId());
                     delegateOrderEntity.setGoodsEntity(goodsEntity);
                     return delegateOrderEntity;
                 }).collect(Collectors.toSet())
         );
         Set<GoodsEntity> goodsEntities = order.getGoods().stream()
-                .map(it -> toGoodsEntity(it, order.getNo()))
+                .map(it -> toGoodsEntity(it, order.getId()))
                 .collect(Collectors.toSet());
         orderEntity.setGoodsEntities(goodsEntities);
         return orderEntity;
@@ -70,6 +70,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     public static Order toOrder(OrderEntity orderEntity) {
         return new Order(
+                orderEntity.getId(),
                 orderEntity.getNo(),
                 orderEntity.getAmountPaid(),
                 orderEntity.getTime(),
@@ -84,6 +85,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                         .collect(Collectors.toList()),
                 orderEntity.getDelegateOrders().stream()
                         .map(it -> new DelegateOrder(
+                                it.getId(),
                                 it.getNo(),
                                 it.getCorporateName(),
                                 it.getAmount(),
@@ -102,14 +104,14 @@ public class OrderRepositoryImpl implements OrderRepository {
         );
     }
 
-    private static GoodsEntity toGoodsEntity(Goods goods, String orderNo) {
+    private static GoodsEntity toGoodsEntity(Goods goods, Long orderId) {
         GoodsEntity goodsEntity = new GoodsEntity();
         goodsEntity.setId(goods.getId());
         goodsEntity.setName(goods.getName());
         goodsEntity.setWeight(goods.getWeight());
         goodsEntity.setVolume(goods.getVolume());
         goodsEntity.setAmount(goods.getAmount());
-        goodsEntity.setOrderNo(orderNo);
+        goodsEntity.setOrderId(orderId);
         return goodsEntity;
     }
 }

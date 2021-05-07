@@ -28,12 +28,12 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
     }
 
     @Override
-    public TrackDTO createTrack(String orderNo, TrackDTO trackDTO) {
+    public TrackDTO createTrack(Long orderId, TrackDTO trackDTO) {
         Track track = Track.create(
                 trackDTO.getId(),
                 trackDTO.getArea(),
                 trackDTO.getEvent(),
-                orderNo
+                orderId
         );
         track = trackRepository.save(track);
         return toTrackDTO(track);
@@ -42,7 +42,7 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
     @Override
     public TracksDTO searchTracks(String orderNo) {
         OrderDTO orderDTO = orderApplicationService.searchOrder(orderNo);
-        List<TrackDTO> trackDTOs = trackRepository.tracks(orderNo).stream()
+        List<TrackDTO> trackDTOs = trackRepository.tracks(orderDTO.getId()).stream()
                 .map(TrackApplicationServiceImpl::toTrackDTO)
                 .collect(Collectors.toList());
         TracksDTO tracksDTO = new TracksDTO();

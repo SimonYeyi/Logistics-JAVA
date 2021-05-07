@@ -12,6 +12,8 @@ import java.util.Set;
 @Table(name = "order_", schema = "logistics_order")
 public class OrderEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String no;
     private int amount;
     private int amountPaid;
@@ -23,8 +25,8 @@ public class OrderEntity {
     private String toAddress;
     private Date time;
 
-    @OneToMany(mappedBy = "orderNo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
     private Set<GoodsEntity> goodsEntities = new HashSet<>();
-    @OneToMany(mappedBy = "orderNo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
     private Set<DelegateOrderEntity> delegateOrders = new HashSet<>();
 }

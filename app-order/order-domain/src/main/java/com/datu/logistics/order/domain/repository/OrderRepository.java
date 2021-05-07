@@ -5,7 +5,7 @@ import com.datu.logistics.order.domain.model.Order;
 import java.math.BigInteger;
 
 public interface OrderRepository {
-    Order orderOf(String id);
+    Order orderOf(String no);
 
     Order save(Order order);
 }

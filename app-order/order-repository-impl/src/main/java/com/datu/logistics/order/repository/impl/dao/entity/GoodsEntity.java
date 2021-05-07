@@ -15,5 +15,5 @@ public class GoodsEntity {
     private int weight;
     private int volume;
     private int amount;
-    private String orderNo;
+    private Long orderId;
 }

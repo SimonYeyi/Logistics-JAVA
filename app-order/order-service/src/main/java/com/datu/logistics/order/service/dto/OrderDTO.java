@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public final class OrderDTO {
+    private Long id;
     private String no;
     private Date time;
     private int amount;

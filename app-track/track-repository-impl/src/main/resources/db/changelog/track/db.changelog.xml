@@ -20,8 +20,8 @@
             <column name="time" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
-            <column name="order_no" type="CHAR(32)">
-                <constraints nullable="false"/>
+            <column name="order_id" type="CHAR(32)">
+                <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
     </changeSet>

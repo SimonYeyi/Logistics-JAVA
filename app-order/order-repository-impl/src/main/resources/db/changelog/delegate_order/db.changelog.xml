@@ -8,8 +8,11 @@
 
     <changeSet author="Simon" id="20210503111000">
         <createTable tableName="delegate_order">
-            <column name="no" type="CHAR(32)">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="delegate_order_pkey"/>
+            </column>
+            <column name="no" type="CHAR(32)">
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="corporate_name" type="CHAR(64)">
                 <constraints nullable="false"/>
@@ -23,8 +26,8 @@
             <column name="goods_id" type="BIGINT">
                 <constraints nullable="false" foreignKeyName="goods_fkey" references="goods(id)"/>
             </column>
-            <column name="order_no" type="CHAR(32)">
-                <constraints nullable="false" foreignKeyName="delegate_order_order_fkey" references="order_(no)"/>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="delegate_order_order_fkey" references="order_(id)"/>
             </column>
         </createTable>
     </changeSet>

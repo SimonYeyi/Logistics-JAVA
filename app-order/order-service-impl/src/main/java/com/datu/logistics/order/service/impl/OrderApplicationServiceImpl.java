@@ -60,7 +60,9 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
 
     @Override
     public List<OrderDTO> searchOrders(List<String> orderNos) {
-        return orderNos.stream().map(this::searchOrder).collect(Collectors.toList());
+        return orderNos.stream()
+                .map(this::searchOrder)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -82,6 +84,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
         }
         List<DelegateOrder> delegateOrders = orderDelegatedCommands.getDelegateItems().stream()
                 .map(delegateItem -> new DelegateOrder(
+                        null,
                         delegateItem.getDelegateOrderNo(),
                         delegateItem.getDelegateCorporateName(),
                         delegateItem.getDelegateAmount(),

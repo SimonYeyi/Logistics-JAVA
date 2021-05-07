@@ -15,5 +15,5 @@ public class TrackEntity {
     private String area;
     private String event;
     private Date time;
-    private String orderNo;
+    private Long orderId;
 }
