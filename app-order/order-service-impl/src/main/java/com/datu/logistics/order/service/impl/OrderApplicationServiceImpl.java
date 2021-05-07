@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,9 +42,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
                 orderCreateCommand.getOrderTime(),
                 toContacts(orderCreateCommand.getFrom()),
                 toContacts(orderCreateCommand.getTo()),
-                orderCreateCommand.getGoods().stream()
-                        .map(OrderApplicationServiceImpl::toGoods)
-                        .collect(Collectors.toList())
+                Collections.singletonList(toGoods(orderCreateCommand.getGoods()))
         );
         order = orderRepository.save(order);
         return toOrderDTO(order);
@@ -77,21 +76,19 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     }
 
     @Override
-    public OrderDTO delegatedOrder(String orderNo, OrderDelegatedCommand orderDelegatedCommands) {
+    public OrderDTO delegatedOrder(String orderNo, OrderDelegatedCommand orderCreateCommand) {
         Order order = orderRepository.orderOf(orderNo);
         if (order == null) {
             throw new OrderNotFoundException(orderNo);
         }
-        List<DelegateOrder> delegateOrders = orderDelegatedCommands.getDelegateItems().stream()
-                .map(delegateItem -> new DelegateOrder(
-                        null,
-                        delegateItem.getDelegateOrderNo(),
-                        delegateItem.getDelegateCorporateName(),
-                        delegateItem.getDelegateAmount(),
-                        delegateItem.getDelegateTime(),
-                        order.getGoods(delegateItem.getDelegateGoodsId())
-                ))
-                .collect(Collectors.toList());
+        List<DelegateOrder> delegateOrders = Collections.singletonList(new DelegateOrder(
+                null,
+                orderCreateCommand.getDelegateOrderNo(),
+                orderCreateCommand.getDelegateCorporateName(),
+                orderCreateCommand.getDelegateAmount(),
+                orderCreateCommand.getDelegateTime(),
+                order.getGoods(0)
+        ));
         order.delegated(delegateOrders);
         orderRepository.save(order);
         return toOrderDTO(order);

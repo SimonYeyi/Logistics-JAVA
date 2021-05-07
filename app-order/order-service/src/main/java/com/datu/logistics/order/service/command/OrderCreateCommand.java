@@ -14,5 +14,5 @@ public final class OrderCreateCommand {
     private int orderAmountPaid;
     private ContactsDTO from;
     private ContactsDTO to;
-    private List<GoodsDTO> goods;
+    private GoodsDTO goods;
 }

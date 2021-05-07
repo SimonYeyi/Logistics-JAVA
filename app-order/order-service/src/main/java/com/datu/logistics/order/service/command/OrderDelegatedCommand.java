@@ -8,14 +8,8 @@ import java.util.List;
 
 @Data
 public final class OrderDelegatedCommand {
-    private List<DelegateItem> delegateItems = Collections.emptyList();
-
-    @Data
-    public static final class DelegateItem {
-        private String delegateOrderNo;
-        private String delegateCorporateName;
-        private int delegateAmount;
-        private Date delegateTime;
-        private long delegateGoodsId;
-    }
+    private String delegateOrderNo;
+    private String delegateCorporateName;
+    private int delegateAmount;
+    private Date delegateTime;
 }

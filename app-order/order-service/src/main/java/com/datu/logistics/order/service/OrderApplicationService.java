@@ -27,5 +27,5 @@ public interface OrderApplicationService {
 
     @PatchMapping("{orderNo}/delegated")
     OrderDTO delegatedOrder(@PathVariable("orderNo") String orderNo,
-                            @RequestParam("orderDelegatedCommands") OrderDelegatedCommand orderDelegatedCommands);
+                            @RequestParam("orderDelegatedCommand") OrderDelegatedCommand orderDelegatedCommand);
 }
