@@ -5,15 +5,14 @@ import com.datu.logistics.order.service.dto.OrderDTO;
 import com.datu.logistics.track.model.Track;
 import com.datu.logistics.track.repository.TrackRepository;
 import com.datu.logistics.track.service.TrackApplicationService;
+import com.datu.logistics.track.service.command.TrackCreateCommand;
 import com.datu.logistics.track.service.dto.TrackDTO;
 import com.datu.logistics.track.service.dto.TracksDTO;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Primary
@@ -28,12 +27,11 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
     }
 
     @Override
-    public TrackDTO createTrack(Long orderId, TrackDTO trackDTO) {
+    public TrackDTO createTrack(TrackCreateCommand trackCreateCommand) {
         Track track = Track.create(
-                trackDTO.getId(),
-                trackDTO.getArea(),
-                trackDTO.getEvent(),
-                orderId
+                trackCreateCommand.getTrackArea(),
+                trackCreateCommand.getTrackEvent(),
+                trackCreateCommand.getOrderId()
         );
         track = trackRepository.save(track);
         return toTrackDTO(track);

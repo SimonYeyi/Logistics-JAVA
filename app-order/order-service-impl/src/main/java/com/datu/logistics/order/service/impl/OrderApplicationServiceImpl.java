@@ -42,7 +42,9 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
                 orderCreateCommand.getOrderTime(),
                 toContacts(orderCreateCommand.getFrom()),
                 toContacts(orderCreateCommand.getTo()),
-                Collections.singletonList(toGoods(orderCreateCommand.getGoods()))
+                orderCreateCommand.getGoodsList().stream()
+                        .map(OrderApplicationServiceImpl::toGoods)
+                        .collect(Collectors.toList())
         );
         order = orderRepository.save(order);
         return toOrderDTO(order);
@@ -81,14 +83,22 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
         if (order == null) {
             throw new OrderNotFoundException(orderNo);
         }
-        List<DelegateOrder> delegateOrders = Collections.singletonList(new DelegateOrder(
-                null,
-                orderCreateCommand.getDelegateOrderNo(),
-                orderCreateCommand.getDelegateCorporateName(),
-                orderCreateCommand.getDelegateAmount(),
-                orderCreateCommand.getDelegateTime(),
-                order.getGoods(0)
-        ));
+        List<OrderDelegatedCommand.DelegateItem> delegateItems = orderCreateCommand.getDelegateItems();
+        List<DelegateOrder> delegateOrders = new ArrayList<>(delegateItems.size());
+        for (int i = 0; i < delegateItems.size(); i++) {
+            OrderDelegatedCommand.DelegateItem delegateItem = delegateItems.get(i);
+            Goods delegateGoods = order.getGoods(delegateItem.getDelegateGoodsId());
+            //goodsId不合法理应报异常，目前为了方便前端传参
+            delegateGoods = delegateGoods != null ? delegateGoods : order.getGoods().get(i);
+            delegateOrders.add(new DelegateOrder(
+                    null,
+                    delegateItem.getDelegateOrderNo(),
+                    delegateItem.getDelegateCorporateName(),
+                    delegateItem.getDelegateAmount(),
+                    delegateItem.getDelegateTime(),
+                    delegateGoods
+            ));
+        }
         order.delegated(delegateOrders);
         orderRepository.save(order);
         return toOrderDTO(order);

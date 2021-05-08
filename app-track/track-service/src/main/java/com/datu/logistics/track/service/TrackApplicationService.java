@@ -1,5 +1,6 @@
 package com.datu.logistics.track.service;
 
+import com.datu.logistics.track.service.command.TrackCreateCommand;
 import com.datu.logistics.track.service.dto.TrackDTO;
 import com.datu.logistics.track.service.dto.TracksDTO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -13,7 +14,7 @@ import java.util.Map;
 public interface TrackApplicationService {
 
     @PostMapping("create")
-    TrackDTO createTrack(@RequestParam("orderId") Long orderId, @RequestBody TrackDTO trackDTO);
+    TrackDTO createTrack(@RequestBody TrackCreateCommand trackCreateCommand);
 
     @GetMapping("list/get")
     TracksDTO searchTracks(@RequestParam("orderNo") String orderNo);
