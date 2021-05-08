@@ -12,14 +12,15 @@ import com.datu.logistics.order.service.dto.*;
 import com.datu.logistics.order.service.exception.OrderNotFoundException;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin
 @Primary
 @RestController
 public class OrderApplicationServiceImpl implements OrderApplicationService {
@@ -103,7 +104,10 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
 
     @Override
     public PageDTO<OrderDTO> getOrders(int page, int pageSize) {
-        return PageDTO.content(Collections.emptyList());
+        List<OrderDTO> orders = orderRepository.pageOf(page, pageSize).stream()
+                .map(OrderApplicationServiceImpl::toOrderDTO)
+                .collect(Collectors.toList());
+        return PageDTO.content(orders);
     }
 
     private static Goods toGoods(GoodsDTO goodsDTO) {

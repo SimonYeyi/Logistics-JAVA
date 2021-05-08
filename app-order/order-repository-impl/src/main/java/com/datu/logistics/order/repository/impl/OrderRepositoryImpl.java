@@ -9,8 +9,10 @@ import com.datu.logistics.order.repository.impl.dao.OrderDAO;
 import com.datu.logistics.order.repository.impl.dao.entity.DelegateOrderEntity;
 import com.datu.logistics.order.repository.impl.dao.entity.GoodsEntity;
 import com.datu.logistics.order.repository.impl.dao.entity.OrderEntity;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,8 +34,16 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Order save(Order order) {
-        OrderEntity orderEntity = orderDAO.saveAndFlush(toOrderEntity(order));
+        OrderEntity orderEntity = orderDAO.save(toOrderEntity(order));
         return toOrder(orderEntity);
+    }
+
+    @Override
+    public List<Order> pageOf(int page, int pageSize) {
+        PageRequest pageable = PageRequest.of(page - 1, pageSize);
+        return orderDAO.findAll(pageable)
+                .map(OrderRepositoryImpl::toOrder)
+                .getContent();
     }
 
     private static OrderEntity toOrderEntity(Order order) {
