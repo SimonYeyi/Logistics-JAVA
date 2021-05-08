@@ -8,10 +8,7 @@ import com.datu.logistics.order.domain.repository.OrderRepository;
 import com.datu.logistics.order.service.OrderApplicationService;
 import com.datu.logistics.order.service.command.OrderCreateCommand;
 import com.datu.logistics.order.service.command.OrderDelegatedCommand;
-import com.datu.logistics.order.service.dto.ContactsDTO;
-import com.datu.logistics.order.service.dto.DelegateOrderDTO;
-import com.datu.logistics.order.service.dto.GoodsDTO;
-import com.datu.logistics.order.service.dto.OrderDTO;
+import com.datu.logistics.order.service.dto.*;
 import com.datu.logistics.order.service.exception.OrderNotFoundException;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.context.annotation.Primary;
@@ -35,8 +32,8 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     }
 
     @Override
-    public OrderDTO createOrder(OrderCreateCommand orderCreateCommand) {
-        Order order = Order.create(
+    public OrderDTO addOrder(OrderCreateCommand orderCreateCommand) {
+        Order order = Order.add(
                 orderCreateCommand.getOrderNo(),
                 orderCreateCommand.getOrderAmountPaid(),
                 orderCreateCommand.getOrderTime(),
@@ -102,6 +99,11 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
         order.delegated(delegateOrders);
         orderRepository.save(order);
         return toOrderDTO(order);
+    }
+
+    @Override
+    public PageDTO<OrderDTO> getOrders(int page, int pageSize) {
+        return PageDTO.content(Collections.emptyList());
     }
 
     private static Goods toGoods(GoodsDTO goodsDTO) {

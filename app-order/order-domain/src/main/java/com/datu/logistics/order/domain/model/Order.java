@@ -21,7 +21,7 @@ public class Order implements Comparable<Order> {
     private final List<Goods> goods;
     private List<DelegateOrder> delegateOrders = Collections.emptyList();
 
-    public static Order create(String orderNo, int orderAmountPaid, Date orderTime, Contacts from, Contacts to, List<Goods> goodsList) {
+    public static Order add(String orderNo, int orderAmountPaid, Date orderTime, Contacts from, Contacts to, List<Goods> goodsList) {
         Order order = new Order(null, orderNo, orderTime, from, to, goodsList);
         order.amountPaid = orderAmountPaid;
         return order;

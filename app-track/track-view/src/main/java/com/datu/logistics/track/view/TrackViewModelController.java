@@ -17,7 +17,7 @@ import java.util.List;
 public class TrackViewModelController {
     private final TrackApplicationService trackApplicationService;
 
-    public TrackViewModelController(TrackApplicationService trackApplicationService, OrderApplicationService orderApplicationService) {
+    public TrackViewModelController(TrackApplicationService trackApplicationService) {
         this.trackApplicationService = trackApplicationService;
     }
 
