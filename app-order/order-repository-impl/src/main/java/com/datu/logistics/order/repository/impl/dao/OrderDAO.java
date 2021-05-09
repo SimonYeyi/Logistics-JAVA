@@ -6,7 +6,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Optional;
 
-public interface OrderDAO extends PagingAndSortingRepository<OrderEntity, Long> {
+public interface OrderDAO extends PagingAndSortingRepository<OrderEntity, Long>, JpaRepository<OrderEntity, Long> {
 
     Optional<OrderEntity> findByNo(String no);
 }

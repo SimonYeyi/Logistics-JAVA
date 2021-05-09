@@ -1,6 +1,7 @@
 package com.datu.logistics.order.repository.impl.dao.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Objects;
 
 
 @Data
+@EqualsAndHashCode(exclude = {"orderEntity"})
 @Entity
 @Table(name = "delegate_order", schema = "logistics_order")
 public class DelegateOrderEntity {
@@ -18,7 +20,11 @@ public class DelegateOrderEntity {
     private String corporateName;
     private int amount;
     private Date time;
-    private Long orderId;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private OrderEntity orderEntity;
+
     @OneToOne
     @JoinColumn(name = "goods_id", referencedColumnName = "id", nullable = false)
     private GoodsEntity goodsEntity;

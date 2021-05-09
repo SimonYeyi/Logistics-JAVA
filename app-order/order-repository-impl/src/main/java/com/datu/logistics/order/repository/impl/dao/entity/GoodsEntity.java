@@ -1,10 +1,12 @@
 package com.datu.logistics.order.repository.impl.dao.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
 @Data
+@EqualsAndHashCode(exclude = {"orderEntity"})
 @Entity
 @Table(name = "goods", schema = "logistics_order")
 public class GoodsEntity {
@@ -15,5 +17,8 @@ public class GoodsEntity {
     private int weight;
     private int volume;
     private int amount;
-    private Long orderId;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private OrderEntity orderEntity;
 }

@@ -18,6 +18,10 @@ public final class OrderCreateCommand {
     private List<GoodsDTO> goodsList;
 
     public OrderCreateCommand() {
+        from = new ContactsDTO();
+        from.setFullName("");
+        from.setPhone("");
+        from.setAddress("");
         GoodsDTO goodsDTO = new GoodsDTO();
         goodsDTO.setName("generated");
         goodsList = Collections.singletonList(goodsDTO);

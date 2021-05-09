@@ -12,7 +12,6 @@ import com.datu.logistics.order.service.dto.*;
 import com.datu.logistics.order.service.exception.OrderNotFoundException;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.context.annotation.Primary;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin
 @Primary
 @RestController
 public class OrderApplicationServiceImpl implements OrderApplicationService {

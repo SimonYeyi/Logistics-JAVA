@@ -26,7 +26,7 @@ public interface OrderApplicationService {
 
     @PatchMapping("{orderNo}/delegated")
     OrderDTO delegatedOrder(@PathVariable("orderNo") String orderNo,
-                            @RequestParam("orderDelegatedCommand") OrderDelegatedCommand orderDelegatedCommand);
+                            @RequestBody OrderDelegatedCommand orderDelegatedCommand);
 
     @GetMapping("page/get")
     PageDTO<OrderDTO> getOrders(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize);
