@@ -6,6 +6,13 @@ spring:
     name: gateway
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allow-credentials: true
+            allowedOriginPatterns: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
       routes:
         - id: order
           uri: lb://order
