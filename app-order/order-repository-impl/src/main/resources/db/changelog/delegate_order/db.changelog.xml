@@ -24,7 +24,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="goods_id" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="goods_fkey" references="goods(id)"/>
+                <constraints nullable="false" unique="true" foreignKeyName="goods_fkey" references="goods(id)"/>
             </column>
             <column name="order_id" type="BIGINT">
                 <constraints nullable="false" foreignKeyName="delegate_order_order_fkey" references="order_(id)"/>

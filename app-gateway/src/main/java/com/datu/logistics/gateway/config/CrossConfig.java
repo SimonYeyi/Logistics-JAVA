@@ -1,4 +1,4 @@
-package com.datu.logistics.track.config;
+package com.datu.logistics.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
