@@ -13,12 +13,15 @@ import java.util.Map;
 @FeignClient(value = "track", path = "track", primary = false)
 public interface TrackApplicationService {
 
-    @PostMapping("create")
-    TrackDTO createTrack(@RequestBody TrackCreateCommand trackCreateCommand);
+    @PostMapping("add")
+    TrackDTO addTrack(@RequestBody TrackCreateCommand trackCreateCommand);
 
-    @GetMapping("list/get")
+    @GetMapping("list/search")
     TracksDTO searchTracks(@RequestParam("orderNo") String orderNo);
 
-    @GetMapping("list/multi/get")
+    @GetMapping("list/multi/search")
     List<TracksDTO> searchMultiTracks(@RequestParam("orderNos") List<String> orderNos);
+
+    @GetMapping("list/get")
+    TracksDTO getTracks(@RequestParam("orderNo") String orderNo);
 }

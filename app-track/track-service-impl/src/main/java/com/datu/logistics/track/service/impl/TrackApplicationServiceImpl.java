@@ -27,7 +27,7 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
     }
 
     @Override
-    public TrackDTO createTrack(TrackCreateCommand trackCreateCommand) {
+    public TrackDTO addTrack(TrackCreateCommand trackCreateCommand) {
         Track track = Track.create(
                 trackCreateCommand.getTrackArea(),
                 trackCreateCommand.getTrackEvent(),
@@ -39,6 +39,18 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
 
     @Override
     public TracksDTO searchTracks(String orderNo) {
+        return getTracks(orderNo);
+    }
+
+    @Override
+    public List<TracksDTO> searchMultiTracks(List<String> orderNos) {
+        return orderNos.stream()
+                .map(this::searchTracks)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public TracksDTO getTracks(String orderNo) {
         OrderDTO orderDTO = orderApplicationService.searchOrder(orderNo);
         List<TrackDTO> trackDTOs = trackRepository.tracks(orderDTO.getId()).stream()
                 .map(TrackApplicationServiceImpl::toTrackDTO)
@@ -47,13 +59,6 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
         tracksDTO.setOrder(orderDTO);
         tracksDTO.setTracks(trackDTOs);
         return tracksDTO;
-    }
-
-    @Override
-    public List<TracksDTO> searchMultiTracks(List<String> orderNos) {
-        return orderNos.stream()
-                .map(this::searchTracks)
-                .collect(Collectors.toList());
     }
 
     private static TrackDTO toTrackDTO(Track track) {
