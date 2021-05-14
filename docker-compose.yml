@@ -61,6 +61,16 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
+  redis:
+    restart: "on-failure"
+    image: redis:6.2.1
+    networks:
+      - app-net
+    ports:
+      - 6379:6379
+    container_name: redis
+    volumes:
+      - ${DOCKER_DIR}/data:/data
   mysql:
     restart: "on-failure"
     image: mysql:8.0.23
@@ -74,16 +84,20 @@ services:
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  redis:
-    restart: "on-failure"
-    image: redis:6.2.1
+  adminer:
+    restart: on-failure
+    image: adminer:4.8.0
     networks:
       - app-net
     ports:
-      - 6379:6379
-    container_name: redis
-    volumes:
-      - ${DOCKER_DIR}/data:/data
+      - 8080:8080
+    container_name: adminer
+    links:
+      - mysql
+    environment:
+      ADMINER_DESIGN: 'nette'
+      ADMINER_PLUGINS: 'tables-filter tinymce'
+      ADMINER_DEFAULT_SERVER: mysql
 
 networks:
   app-net:
