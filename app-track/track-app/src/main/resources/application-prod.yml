@@ -1,7 +1,11 @@
 eureka:
   instance:
-    hostname: 10.0.10.147
+    hostname: datu.com
 
 spring:
   datasource:
-    password: jiangqingyuan
+    password: ${db.root.password}
+
+db:
+  root:
+    password:

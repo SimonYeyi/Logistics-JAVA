@@ -2,102 +2,124 @@ version: '3'
 
 services:
   registry-app:
-    restart: "on-failure"
-    image: "logistics-registry-app:0.0.1"                     # 镜像名：标签名
     hostname: registry                                        # 注册中心的hostname一定要有，且必须和代码中配置文件里的hostname一致
-    networks:
-      - app-net                                               # 加入的网络
-    ports:
-      - 4000:4000                                             # 映射的端口号，和代码中配置文件里的端口号一致
+    image: "logistics-registry-app:0.0.1"                     # 镜像名：标签名
     container_name: registry-app
+    ports:
+      - 4000:4000                                             # 映射的端口号，和代码中配置文件里的端口号一致                                              # 加入的网络
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}       # spring-boot环境
       EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
-  gateway-app:
-    restart: "on-failure"
-    image: "logistics-gateway-app:0.0.1"
-    hostname: registry
     networks:
       - app-net
+    restart: "on-failure"
+  gateway-app:
+    hostname: registry
+    image: "logistics-gateway-app:0.0.1"
+    container_name: gateway-app
     ports:
       - 5000:5000
-    container_name: gateway-app
-    depends_on:
-      - registry-app
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
-  order-app:
-    restart: "on-failure"
-    image: "logistics-order-app:0.0.1"
-    hostname: registry
+    depends_on:
+      - registry-app
     networks:
       - app-net
+    restart: "on-failure"
+  order-app:
+    hostname: registry
+    image: "logistics-order-app:0.0.1"
+    container_name: order-app
     ports:
       - 6050:6050
-    container_name: order-app
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
     depends_on:
       - registry-app
       - mysql
     links:
       - mysql
-    environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
-  track-app:
-    restart: "on-failure"
-    image: "logistics-track-app:0.0.1"
-    hostname: registry
     networks:
       - app-net
+    restart: "on-failure"
+  track-app:
+    hostname: registry
+    image: "logistics-track-app:0.0.1"
+    container_name: track-app
     ports:
       - 6060:6060
-    container_name: track-app
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
     depends_on:
       - registry-app
       - mysql
     links:
       - mysql
-    environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
-  redis:
-    restart: "on-failure"
-    image: redis:6.2.1
     networks:
       - app-net
+    restart: "on-failure"
+  redis:
+    image: redis:6.2.1
+    container_name: redis
     ports:
       - 6379:6379
-    container_name: redis
     volumes:
       - ${DOCKER_DIR}/data:/data
-  mysql:
-    restart: "on-failure"
-    image: mysql:8.0.23
     networks:
       - app-net
+    restart: "on-failure"
+  mysql:
+    image: mysql:8.0.23
+    container_name: mysql
     ports:
       - 3306:3306
-    container_name: mysql
     volumes:
       - ${DOCKER_DIR}/var/lib/mysql:/var/lib/mysql
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  adminer:
-    restart: on-failure
-    image: adminer:4.8.0
     networks:
       - app-net
+    restart: "on-failure"
+  adminer:
+    image: adminer:4.8.0
+    container_name: adminer
     ports:
       - 8080:8080
-    container_name: adminer
-    links:
-      - mysql
     environment:
       ADMINER_DESIGN: 'nette'
       ADMINER_PLUGINS: 'tables-filter tinymce'
       ADMINER_DEFAULT_SERVER: mysql
+    networks:
+      - app-net
+    restart: on-failure
+  mongo:
+    image: mongo:4.4.5
+    container_name: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ${DOCKER_DIR}/data/db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - app-net
+    restart: on-failure
+  mongo-express:
+    image: mongo-express:0.54.0
+    container_name: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - app-net
+    restart: on-failure
 
 networks:
   app-net:
