@@ -5,7 +5,7 @@ import com.datu.logistics.order.service.dto.OrderDTO;
 import com.datu.logistics.track.model.Track;
 import com.datu.logistics.track.repository.TrackRepository;
 import com.datu.logistics.track.service.TrackApplicationService;
-import com.datu.logistics.track.service.command.TrackCreateCommand;
+import com.datu.logistics.track.service.command.TrackAddCommand;
 import com.datu.logistics.track.service.dto.TrackDTO;
 import com.datu.logistics.track.service.dto.TracksDTO;
 import org.springframework.cglib.beans.BeanCopier;
@@ -27,11 +27,11 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
     }
 
     @Override
-    public TrackDTO addTrack(TrackCreateCommand trackCreateCommand) {
-        Track track = Track.create(
-                trackCreateCommand.getTrackArea(),
-                trackCreateCommand.getTrackEvent(),
-                trackCreateCommand.getOrderId()
+    public TrackDTO addTrack(TrackAddCommand trackAddCommand) {
+        Track track = Track.add(
+                trackAddCommand.getTrackArea(),
+                trackAddCommand.getTrackEvent(),
+                trackAddCommand.getOrderId()
         );
         track = trackRepository.save(track);
         return toTrackDTO(track);

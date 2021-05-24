@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public final class OrderCreateCommand {
+public final class OrderAddCommand {
     private String orderNo;
     private Date orderTime;
     private int orderAmountPaid;
@@ -17,7 +17,7 @@ public final class OrderCreateCommand {
     private ContactsDTO to;
     private List<GoodsDTO> goodsList;
 
-    public OrderCreateCommand() {
+    public OrderAddCommand() {
         from = new ContactsDTO();
         from.setFullName("");
         from.setPhone("");

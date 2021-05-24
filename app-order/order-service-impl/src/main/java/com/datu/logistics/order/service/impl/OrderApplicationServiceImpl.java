@@ -6,7 +6,7 @@ import com.datu.logistics.order.domain.model.Goods;
 import com.datu.logistics.order.domain.model.Order;
 import com.datu.logistics.order.domain.repository.OrderRepository;
 import com.datu.logistics.order.service.OrderApplicationService;
-import com.datu.logistics.order.service.command.OrderCreateCommand;
+import com.datu.logistics.order.service.command.OrderAddCommand;
 import com.datu.logistics.order.service.command.OrderDelegatedCommand;
 import com.datu.logistics.order.service.dto.*;
 import com.datu.logistics.order.service.exception.OrderNotFoundException;
@@ -31,14 +31,14 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     }
 
     @Override
-    public OrderDTO addOrder(OrderCreateCommand orderCreateCommand) {
+    public OrderDTO addOrder(OrderAddCommand orderAddCommand) {
         Order order = Order.add(
-                orderCreateCommand.getOrderNo(),
-                orderCreateCommand.getOrderAmountPaid(),
-                orderCreateCommand.getOrderTime(),
-                toContacts(orderCreateCommand.getFrom()),
-                toContacts(orderCreateCommand.getTo()),
-                orderCreateCommand.getGoodsList().stream()
+                orderAddCommand.getOrderNo(),
+                orderAddCommand.getOrderAmountPaid(),
+                orderAddCommand.getOrderTime(),
+                toContacts(orderAddCommand.getFrom()),
+                toContacts(orderAddCommand.getTo()),
+                orderAddCommand.getGoodsList().stream()
                         .map(OrderApplicationServiceImpl::toGoods)
                         .collect(Collectors.toList())
         );
@@ -74,12 +74,12 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     }
 
     @Override
-    public OrderDTO delegatedOrder(String orderNo, OrderDelegatedCommand orderCreateCommand) {
+    public OrderDTO delegatedOrder(String orderNo, OrderDelegatedCommand orderDelegatedCommand) {
         Order order = orderRepository.orderOf(orderNo);
         if (order == null) {
             throw new OrderNotFoundException(orderNo);
         }
-        List<OrderDelegatedCommand.DelegateItem> delegateItems = orderCreateCommand.getDelegateItems();
+        List<OrderDelegatedCommand.DelegateItem> delegateItems = orderDelegatedCommand.getDelegateItems();
         List<DelegateOrder> delegateOrders = new ArrayList<>(delegateItems.size());
         for (int i = 0; i < delegateItems.size(); i++) {
             OrderDelegatedCommand.DelegateItem delegateItem = delegateItems.get(i);

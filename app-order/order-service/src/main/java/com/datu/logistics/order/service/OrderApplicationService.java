@@ -1,6 +1,6 @@
 package com.datu.logistics.order.service;
 
-import com.datu.logistics.order.service.command.OrderCreateCommand;
+import com.datu.logistics.order.service.command.OrderAddCommand;
 import com.datu.logistics.order.service.command.OrderDelegatedCommand;
 import com.datu.logistics.order.service.dto.OrderDTO;
 import com.datu.logistics.order.service.dto.PageDTO;
@@ -13,7 +13,7 @@ import java.util.List;
 public interface OrderApplicationService {
 
     @PostMapping("add")
-    OrderDTO addOrder(@RequestBody OrderCreateCommand orderCreateCommand);
+    OrderDTO addOrder(@RequestBody OrderAddCommand orderAddCommand);
 
     @GetMapping("{orderNo}/search")
     OrderDTO searchOrder(@PathVariable("orderNo") String orderNo);
