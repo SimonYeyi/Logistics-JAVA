@@ -26,6 +26,7 @@
     <modules>
         <module>app-registry</module>
         <module>app-gateway</module>
+        <module>app-account</module>
         <module>app-order</module>
         <module>app-track</module>
     </modules>

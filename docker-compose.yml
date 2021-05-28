@@ -27,6 +27,22 @@ services:
     networks:
       - app-net
     restart: "on-failure"
+  account-app:
+    hostname: registry
+    image: "logistics-account-app:0.0.1"
+    container_name: account-app
+    ports:
+      - 5050:5050
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
+    depends_on:
+      - registry-app
+    links:
+      - redis
+    networks:
+      - app-net
+    restart: "on-failure"
   order-app:
     hostname: registry
     image: "logistics-order-app:0.0.1"
