@@ -17,19 +17,20 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class JwtUtils {
     private static final String SECRET_KEY = "123456"; //秘钥
-    private static final long TOKEN_EXPIRE_TIME = 2 * 60; //token过期时间
+    private static final long TOKEN_EXPIRE_TIME = 60 * 5; //token过期时间
     private static final long REFRESH_TOKEN_EXPIRE_TIME = TOKEN_EXPIRE_TIME * 20; //refreshToken过期时间
     private static final String ISSUER = "JwtUtils"; //签发人
-    private static final String JWT_CLAIM_NAME = "JWT_CLAIM_KEY";
     private static StringRedisTemplate stringRedisTemplate;
+    private static final String KEY_CLAIM_NAME = "KEY_CLAIM_NAME";
+    private static final String KEY_USER_ID = "KEY_USER_ID";
+    private static final String KEY_USER_NAME = "KEY_USER_NAME";
+    private static final String KEY_TOKEN_VERSION = "KEY_TOKEN_VERSION";
+    private static final String KEY_REFRESH_TOKEN = "KEY_REFRESH_TOKEN";
 
     private JwtUtils(StringRedisTemplate stringRedisTemplate) {
         JwtUtils.stringRedisTemplate = stringRedisTemplate;
     }
 
-    /**
-     * 生成签名
-     */
     public static String[] generateToken(Object userId, String username, @Nullable Map<String, Object> claim) {
         String token = onlyGenerateToken(userId, username, claim);
         String refreshToken = generateRefreshToken(userId);
@@ -39,9 +40,9 @@ public class JwtUtils {
     private static String onlyGenerateToken(Object userId, String username, @Nullable Map<String, Object> claim) {
         if (claim == null) claim = new HashMap<>(2);
         int tokenVersion = setTokenVersion(userId);
-        claim.put("userId", userId);
-        claim.put("username", username);
-        claim.put("tokenVersion", tokenVersion);
+        claim.put(KEY_USER_ID, userId);
+        claim.put(KEY_USER_NAME, username);
+        claim.put(KEY_TOKEN_VERSION, tokenVersion);
         for (Map.Entry<String, Object> entry : claim.entrySet()) {
             if (entry.getValue() instanceof Long) {
                 entry.setValue(entry.getValue() + "_L");
@@ -53,33 +54,33 @@ public class JwtUtils {
                 .withIssuer(ISSUER) //签发人
                 .withIssuedAt(now) //签发时间
                 .withExpiresAt(new Date(now.getTime() + TOKEN_EXPIRE_TIME * 60 * 1000)) //过期时间
-                .withClaim(JWT_CLAIM_NAME, claim)
+                .withClaim(KEY_CLAIM_NAME, claim)
                 .sign(algorithm);
     }
 
     private static int setTokenVersion(Object userId) {
         int currentTokenVersion = getCurrentTokenVersion(userId);
         int newTokenVersion = ++currentTokenVersion;
-        stringRedisTemplate.opsForHash().put(userTokenKey(userId), "tokenVersion", newTokenVersion + "");
+        stringRedisTemplate.opsForHash().put(userTokenKey(userId), KEY_TOKEN_VERSION, newTokenVersion + "");
         return newTokenVersion;
     }
 
     private static int getCurrentTokenVersion(Object userId) {
-        String lastTokenVersion = (String) stringRedisTemplate.opsForHash().get(userTokenKey(userId), "tokenVersion");
+        String lastTokenVersion = (String) stringRedisTemplate.opsForHash().get(userTokenKey(userId), KEY_TOKEN_VERSION);
         return lastTokenVersion == null ? 0 : Integer.parseInt(lastTokenVersion);
     }
 
     private static <T> String generateRefreshToken(T userId) {
         String userTokenKey = userTokenKey(userId);
         String refreshToken = userId.toString() + UUID.randomUUID();
-        stringRedisTemplate.opsForHash().put(userTokenKey, "refreshToken", refreshToken);
+        stringRedisTemplate.opsForHash().put(userTokenKey, KEY_REFRESH_TOKEN, refreshToken);
         stringRedisTemplate.expire(userTokenKey, REFRESH_TOKEN_EXPIRE_TIME, TimeUnit.MINUTES);
         return refreshToken;
     }
 
     public static String refreshToken(String token, String refreshToken) {
         Object userId = getUserId(token);
-        String storedRefreshToken = (String) stringRedisTemplate.opsForHash().get(userTokenKey(userId), "refreshToken");
+        String storedRefreshToken = (String) stringRedisTemplate.opsForHash().get(userTokenKey(userId), KEY_REFRESH_TOKEN);
         if (storedRefreshToken == null) {
             throw new TokenExpiredException("refreshToken expire");
         }
@@ -93,12 +94,9 @@ public class JwtUtils {
         return "Token_" + userId.toString();
     }
 
-    /**
-     * 验证token
-     */
     public static void verifyToken(String token) throws JWTVerificationException {
         Object userId = getUserId(token);
-        int tokenVersion = getClaim(token, "tokenVersion");
+        int tokenVersion = getClaim(token, KEY_TOKEN_VERSION);
         int currentTokenVersion = getCurrentTokenVersion(userId);
         if (currentTokenVersion == 0 || tokenVersion < currentTokenVersion) {
             throw new JWTVerificationException("token version expire");
@@ -111,10 +109,7 @@ public class JwtUtils {
     }
 
     public static <T> T getClaim(String token, String name) {
-        Object claim = JWT.decode(token)
-                .getClaim(JWT_CLAIM_NAME)
-                .asMap()
-                .get(name);
+        Object claim = getClaim(token).get(name);
         String claimString = claim + "";
         if (claimString.endsWith("_L")) {
             claim = Long.parseLong(claimString.substring(0, claimString.length() - 2));
@@ -124,15 +119,15 @@ public class JwtUtils {
 
     public static Map<String, Object> getClaim(String token) {
         return JWT.decode(token)
-                .getClaim(JWT_CLAIM_NAME)
+                .getClaim(KEY_CLAIM_NAME)
                 .asMap();
     }
 
     public static <T> T getUserId(String token) {
-        return getClaim(token, "userId");
+        return getClaim(token, KEY_USER_ID);
     }
 
     public static String getUsername(String token) {
-        return getClaim(token, "username");
+        return getClaim(token, KEY_USER_NAME);
     }
 }
