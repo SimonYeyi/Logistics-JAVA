@@ -21,11 +21,11 @@ public class JwtUtils {
     private static final long REFRESH_TOKEN_EXPIRE_TIME = TOKEN_EXPIRE_TIME * 20; //refreshToken过期时间
     private static final String ISSUER = "JwtUtils"; //签发人
     private static StringRedisTemplate stringRedisTemplate;
-    private static final String KEY_CLAIM_NAME = "KEY_CLAIM_NAME";
-    private static final String KEY_USER_ID = "KEY_USER_ID";
-    private static final String KEY_USER_NAME = "KEY_USER_NAME";
-    private static final String KEY_TOKEN_VERSION = "KEY_TOKEN_VERSION";
-    private static final String KEY_REFRESH_TOKEN = "KEY_REFRESH_TOKEN";
+    private static final String KEY_CLAIM_NAME = "CLAIM_NAME";
+    private static final String KEY_USER_ID = "USER_ID";
+    private static final String KEY_USER_NAME = "USER_NAME";
+    private static final String KEY_TOKEN_VERSION = "TOKEN_VERSION";
+    private static final String KEY_REFRESH_TOKEN = "REFRESH_TOKEN";
 
     private JwtUtils(StringRedisTemplate stringRedisTemplate) {
         JwtUtils.stringRedisTemplate = stringRedisTemplate;
@@ -91,7 +91,7 @@ public class JwtUtils {
     }
 
     private static String userTokenKey(Object userId) {
-        return "Token_" + userId.toString();
+        return "TOKEN_FOR_USER_" + userId.toString();
     }
 
     public static void verifyToken(String token) throws JWTVerificationException {
