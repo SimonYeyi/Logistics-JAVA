@@ -1,4 +1,4 @@
-package com.datu.logistics.account;
+package com.datu.logistics.comm.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -78,7 +78,7 @@ public class JwtUtils {
         return refreshToken;
     }
 
-    public static String refreshToken(String token, String refreshToken) {
+    public static String refreshToken(String token, String refreshToken) throws JWTVerificationException {
         Object userId = getUserId(token);
         String storedRefreshToken = (String) stringRedisTemplate.opsForHash().get(userTokenKey(userId), KEY_REFRESH_TOKEN);
         if (storedRefreshToken == null) {
