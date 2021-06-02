@@ -36,15 +36,15 @@
         </dependency>
 
         <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>3.16.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.datu.logistics</groupId>
+            <artifactId>comm-security</artifactId>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 

@@ -18,6 +18,10 @@ spring:
           uri: lb://order
           predicates:
             - Path=/order/**
+        - id: account
+          uri: lb://account
+          predicates:
+            - Path=/account/**
         - id: track
           uri: lb://track
           predicates:

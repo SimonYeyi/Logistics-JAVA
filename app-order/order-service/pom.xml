@@ -21,6 +21,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.datu.logistics</groupId>
+            <artifactId>comm-security</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>

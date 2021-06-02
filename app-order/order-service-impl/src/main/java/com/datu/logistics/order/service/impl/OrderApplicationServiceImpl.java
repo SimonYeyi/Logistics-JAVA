@@ -48,11 +48,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
 
     @Override
     public OrderDTO searchOrder(String orderNo) {
-        Order order = orderRepository.orderOf(orderNo);
-        if (order == null) {
-            throw new OrderNotFoundException(orderNo);
-        }
-        return toOrderDTO(order);
+        return getOrder(orderNo);
     }
 
     @Override
@@ -101,7 +97,16 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     }
 
     @Override
-    public PageDTO<OrderDTO> getOrders(int page, int pageSize) {
+    public OrderDTO getOrder(String orderNo) {
+        Order order = orderRepository.orderOf(orderNo);
+        if (order == null) {
+            throw new OrderNotFoundException(orderNo);
+        }
+        return toOrderDTO(order);
+    }
+
+    @Override
+    public PageDTO<OrderDTO> getOrderPage(int page, int pageSize) {
         List<OrderDTO> orders = orderRepository.pageOf(page, pageSize).stream()
                 .map(OrderApplicationServiceImpl::toOrderDTO)
                 .collect(Collectors.toList());

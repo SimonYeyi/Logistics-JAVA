@@ -51,7 +51,7 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
 
     @Override
     public TracksDTO getTracks(String orderNo) {
-        OrderDTO orderDTO = orderApplicationService.searchOrder(orderNo);
+        OrderDTO orderDTO = orderApplicationService.getOrder(orderNo);
         List<TrackDTO> trackDTOs = trackRepository.tracks(orderDTO.getId()).stream()
                 .map(TrackApplicationServiceImpl::toTrackDTO)
                 .collect(Collectors.toList());

@@ -28,6 +28,9 @@ public interface OrderApplicationService {
     OrderDTO delegatedOrder(@PathVariable("orderNo") String orderNo,
                             @RequestBody OrderDelegatedCommand orderDelegatedCommand);
 
+    @GetMapping("{orderNo}/get")
+    OrderDTO getOrder(@PathVariable("orderNo") String orderNo);
+
     @GetMapping("page/get")
-    PageDTO<OrderDTO> getOrders(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize);
+    PageDTO<OrderDTO> getOrderPage(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize);
 }
