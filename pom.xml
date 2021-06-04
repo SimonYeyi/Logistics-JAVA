@@ -30,6 +30,8 @@
         <module>app-order</module>
         <module>app-track</module>
         <module>comm-security</module>
+        <module>comm-feign</module>
+        <module>comm-exception</module>
     </modules>
 
     <dependencyManagement>

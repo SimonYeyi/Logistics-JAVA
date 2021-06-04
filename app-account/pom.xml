@@ -46,6 +46,12 @@
             <artifactId>comm-security</artifactId>
             <version>0.0.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.datu.logistics</groupId>
+            <artifactId>comm-exception</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>

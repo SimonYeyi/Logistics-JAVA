@@ -1,4 +1,4 @@
-package com.datu.logistics.comm.security;
+package com.datu.logistics.feign;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

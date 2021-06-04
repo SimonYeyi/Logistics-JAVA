@@ -22,6 +22,12 @@
     <dependencies>
         <dependency>
             <groupId>com.datu.logistics</groupId>
+            <artifactId>comm-exception</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.datu.logistics</groupId>
             <artifactId>order-service-impl</artifactId>
             <version>0.0.1</version>
         </dependency>
