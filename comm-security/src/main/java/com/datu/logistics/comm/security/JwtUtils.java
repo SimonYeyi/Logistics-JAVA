@@ -95,17 +95,18 @@ public class JwtUtils {
     }
 
     public static void verifyToken(String token) throws JWTVerificationException {
+        if (token == null) throw new JWTVerificationException("token is null");
         Object userId = getUserId(token);
-        int tokenVersion = getClaim(token, KEY_TOKEN_VERSION);
-        int currentTokenVersion = getCurrentTokenVersion(userId);
-        if (currentTokenVersion == 0 || tokenVersion < currentTokenVersion) {
-            throw new JWTVerificationException("token version expire");
-        }
         final Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY); //算法
         JWT.require(algorithm)
                 .withIssuer(ISSUER)
                 .build()
                 .verify(token);
+        int tokenVersion = getClaim(token, KEY_TOKEN_VERSION);
+        int currentTokenVersion = getCurrentTokenVersion(userId);
+        if (currentTokenVersion == 0 || tokenVersion < currentTokenVersion) {
+            throw new JWTVerificationException("token version expire");
+        }
     }
 
     public static <T> T getClaim(String token, String name) {

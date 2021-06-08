@@ -23,7 +23,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
         sb.append("Request :\n")
                 .append("URL     : ").append(request.getRequestURL()).append("  ").append(request.getMethod()).append("\n")
                 .append("Queries : ").append(new ObjectMapper().writeValueAsString(parameters)).append("\n")
-                .append("BodySize: ").append(request.getInputStream().available()).append("\n")
+                .append("Body    : ").append(request.getInputStream().available() > 0).append("\n")
                 .append("Method  : ").append(h.getBean().getClass().getName()).append(".").append(h.getMethod().getName()).append("\n")
                 .append("-------------------------------------------------------------------------------------------------------------");
         log.info(sb.toString());
