@@ -12,12 +12,7 @@ public class MyExceptionHandler {
     @ResponseStatus
     @ExceptionHandler(Exception.class)
     public ExceptionValue handle(Exception e) {
-        if (e instanceof LogisticsException) {
-            log.info(e.getMessage());
-            return new ExceptionValue((LogisticsException) e);
-        } else {
-            log.error("Unknown Exception: ", e);
-            return new ExceptionValue(new LogisticsException(e));
-        }
+        log.error("", e);
+        return new ExceptionValue(e);
     }
 }

@@ -5,6 +5,10 @@ import com.datu.logistics.exception.LogisticsException;
 public class OrderGoodsEmptyException extends LogisticsException {
 
     public OrderGoodsEmptyException() {
-        super("Order goods is empty");
+        this(null, "Order goods is empty", null);
+    }
+
+    protected OrderGoodsEmptyException(String code, String message, Throwable e) {
+        super(code, message, e);
     }
 }

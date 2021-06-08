@@ -24,8 +24,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
                 .append("URL           : ").append(request.getRequestURL()).append("\n")
                 .append("HTTP Method   : ").append(request.getMethod()).append("\n")
                 .append("Class Method  : ").append(h.getBean().getClass().getName()).append(".").append(h.getMethod().getName()).append("\n")
-                .append("Request Params: ").append(new ObjectMapper().writeValueAsString(parameters)).append("\n")
-                .append("-------------------------------------------------------------\n");
+                .append("Request Params: ").append(new ObjectMapper().writeValueAsString(parameters));
         log.info(sb.toString());
         return true;
     }

@@ -1,5 +1,6 @@
 package com.datu.logistics.track.service.impl;
 
+import com.datu.logistics.feign.RestService;
 import com.datu.logistics.order.service.OrderApplicationService;
 import com.datu.logistics.order.service.dto.OrderDTO;
 import com.datu.logistics.track.model.Track;
@@ -10,13 +11,12 @@ import com.datu.logistics.track.service.dto.TrackDTO;
 import com.datu.logistics.track.service.dto.TracksDTO;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.context.annotation.Primary;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Primary
-@RestController
+@RestService
 public class TrackApplicationServiceImpl implements TrackApplicationService {
     private final TrackRepository trackRepository;
     private final OrderApplicationService orderApplicationService;
