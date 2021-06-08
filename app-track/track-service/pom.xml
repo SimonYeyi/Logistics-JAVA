@@ -28,7 +28,7 @@
 
         <dependency>
             <groupId>com.datu.logistics</groupId>
-            <artifactId>comm-security</artifactId>
+            <artifactId>comm-web</artifactId>
             <version>0.0.1</version>
         </dependency>
 

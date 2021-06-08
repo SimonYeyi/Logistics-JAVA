@@ -1,6 +1,5 @@
 package com.datu.logistics.track.service;
 
-import com.datu.logistics.comm.security.SkipAuthentication;
 import com.datu.logistics.track.service.command.TrackAddCommand;
 import com.datu.logistics.track.service.dto.TrackDTO;
 import com.datu.logistics.track.service.dto.TracksDTO;

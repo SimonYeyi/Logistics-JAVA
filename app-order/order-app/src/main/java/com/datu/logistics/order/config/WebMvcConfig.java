@@ -1,16 +1,9 @@
 package com.datu.logistics.order.config;
 
-import com.datu.logistics.comm.security.AuthenticationHandlerInterceptor;
+import com.datu.logistics.comm.web.WebMvcConfigAdapter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
+public class WebMvcConfig extends WebMvcConfigAdapter {
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthenticationHandlerInterceptor());
-    }
 }
