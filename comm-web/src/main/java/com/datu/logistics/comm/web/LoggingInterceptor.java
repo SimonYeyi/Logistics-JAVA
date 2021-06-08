@@ -20,11 +20,12 @@ public class LoggingInterceptor implements HandlerInterceptor {
         StringBuilder sb = new StringBuilder();
         HandlerMethod h = (HandlerMethod) handler;
         Map<String, Object> parameters = getRequestParameters(request);
-        sb.append("\n")
-                .append("URL           : ").append(request.getRequestURL()).append("\n")
-                .append("HTTP Method   : ").append(request.getMethod()).append("\n")
-                .append("Class Method  : ").append(h.getBean().getClass().getName()).append(".").append(h.getMethod().getName()).append("\n")
-                .append("Request Params: ").append(new ObjectMapper().writeValueAsString(parameters));
+        sb.append("Request :\n")
+                .append("URL     : ").append(request.getRequestURL()).append("  ").append(request.getMethod()).append("\n")
+                .append("Queries : ").append(new ObjectMapper().writeValueAsString(parameters)).append("\n")
+                .append("BodySize: ").append(request.getInputStream().available()).append("\n")
+                .append("Method  : ").append(h.getBean().getClass().getName()).append(".").append(h.getMethod().getName()).append("\n")
+                .append("-------------------------------------------------------------------------------------------------------------");
         log.info(sb.toString());
         return true;
     }

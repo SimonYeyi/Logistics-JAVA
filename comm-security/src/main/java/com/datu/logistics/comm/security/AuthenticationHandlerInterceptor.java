@@ -17,6 +17,7 @@ public class AuthenticationHandlerInterceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) return true;
         Method method = ((HandlerMethod) handler).getMethod();
         if (method.isAnnotationPresent(SkipAuthentication.class)) return true;
+        if (method.getDeclaringClass().isAnnotationPresent(SkipAuthentication.class)) return true;
         String token = request.getHeader("Authentication");
         JwtUtils.verifyToken(token);
         return true;
