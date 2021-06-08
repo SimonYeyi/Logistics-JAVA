@@ -17,7 +17,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if ("openfeign".equals(request.getHeader("Client"))) return true;
         if (!(handler instanceof HandlerMethod)) return true;
-        StringBuilder sb = new StringBuilder(1000);
+        StringBuilder sb = new StringBuilder();
         HandlerMethod h = (HandlerMethod) handler;
         Map<String, Object> parameters = getRequestParameters(request);
         sb.append("\n")

@@ -44,14 +44,18 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
 
     @Override
     public List<TracksDTO> searchMultiTracks(List<String> orderNos) {
-        return orderNos.stream()
-                .map(this::searchTracks)
+        return orderApplicationService.searchOrders(orderNos).stream()
+                .map(this::getTracks)
                 .collect(Collectors.toList());
     }
 
     @Override
     public TracksDTO getTracks(String orderNo) {
         OrderDTO orderDTO = orderApplicationService.getOrder(orderNo);
+        return getTracks(orderDTO);
+    }
+
+    private TracksDTO getTracks(OrderDTO orderDTO) {
         List<TrackDTO> trackDTOs = trackRepository.tracks(orderDTO.getId()).stream()
                 .map(TrackApplicationServiceImpl::toTrackDTO)
                 .collect(Collectors.toList());

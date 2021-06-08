@@ -1,6 +1,8 @@
 package com.datu.logistics.order.service.exception;
 
-public class OrderNotFoundException extends RuntimeException {
+import com.datu.logistics.exception.LogisticsException;
+
+public class OrderNotFoundException extends LogisticsException {
 
     public OrderNotFoundException(String orderNo) {
         super("Order not found: orderId is " + orderNo);
