@@ -85,7 +85,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - ${DOCKER_DIR}/data:/data
+      - ${DOCKER_DIR}/redis/data:/data
     networks:
       - app-net
     restart: "on-failure"
@@ -95,7 +95,7 @@ services:
     ports:
       - 8001:8001
     volumes:
-      - ${DOCKER_DIR}/db:/db
+      - ${DOCKER_DIR}/redisinsight/db:/db
     networks:
       - app-net
     restart: "on-failure"
@@ -105,8 +105,9 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ${DOCKER_DIR}/var/lib/mysql:/var/lib/mysql
-      - ${DOCKER_DIR}/etc/mysql:/etc/mysql
+      - ${DOCKER_DIR}/mysql/etc/mysql:/etc/mysql
+      - ${DOCKER_DIR}/mysql/var/lib/mysql:/var/lib/mysql
+      - ${DOCKER_DIR}/mysql/var/lib/mysql-files:/var/lib/mysql-files
     environment:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
@@ -123,30 +124,6 @@ services:
       ADMINER_DESIGN: 'nette'
       ADMINER_PLUGINS: 'tables-filter tinymce'
       ADMINER_DEFAULT_SERVER: mysql
-    networks:
-      - app-net
-    restart: on-failure
-  mongo:
-    image: mongo:4.4.5
-    container_name: mongo
-    ports:
-      - 27017:27017
-    volumes:
-      - ${DOCKER_DIR}/data/db:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-    networks:
-      - app-net
-    restart: on-failure
-  mongo-express:
-    image: mongo-express:0.54.0
-    container_name: mongo-express
-    ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_ROOT_PASSWORD}
     networks:
       - app-net
     restart: on-failure
