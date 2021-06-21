@@ -94,8 +94,6 @@ services:
     container_name: redisinsight
     ports:
       - 8001:8001
-    volumes:
-      - ${DOCKER_DIR}/redisinsight/db:/db
     networks:
       - app-net
     restart: "on-failure"

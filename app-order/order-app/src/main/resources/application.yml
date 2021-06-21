@@ -10,6 +10,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${eureka.instance.hostname}:3306/logistics_order?useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&createDatabaseIfNotExist=true
     username: root
+    password: ${db.root.password}
     type: com.alibaba.druid.pool.DruidDataSource
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
@@ -23,7 +24,12 @@ spring:
 
 eureka:
   instance:
+    hostname: localhost
     prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:4000/eureka
+
+db:
+  root:
+    password: 123456
