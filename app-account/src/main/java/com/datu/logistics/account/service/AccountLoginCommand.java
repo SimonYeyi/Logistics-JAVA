@@ -1,4 +1,4 @@
-package com.datu.logistics.account;
+package com.datu.logistics.account.service;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

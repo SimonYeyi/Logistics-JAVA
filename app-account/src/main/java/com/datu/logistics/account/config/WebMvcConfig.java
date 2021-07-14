@@ -1,4 +1,4 @@
-package com.datu.logistics.account;
+package com.datu.logistics.account.config;
 
 import com.datu.logistics.comm.web.WebMvcConfigAdapter;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.datu.logistics.account;
+package com.datu.logistics.account.service;
 
 import com.datu.logistics.comm.security.JwtUtils;
 import com.datu.logistics.comm.security.SkipAuthentication;
@@ -12,7 +12,7 @@ import java.util.List;
 @SkipAuthentication
 @Api(tags = "账户接口")
 @RestController
-public class AccountController {
+public class AccountService {
     private static final List<AccountRegisterCommand> accounts = new ArrayList<>();
 
     @ApiOperation("账户注册")
