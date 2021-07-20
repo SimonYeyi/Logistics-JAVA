@@ -27,15 +27,10 @@ public class ExceptionValue {
         Exception exception;
         try {
             Class<?> exClass = Class.forName(exceptionName);
-            if (exClass.isAssignableFrom(LogisticsException.class)) {
-                exception = (Exception) exClass.getDeclaredConstructor(String.class, Throwable.class)
-                        .newInstance(message, null);
-            } else {
-                try {
-                    exception = (Exception) exClass.getDeclaredConstructor(String.class).newInstance(message);
-                } catch (NoSuchMethodException | InvocationTargetException e) {
-                    exception = ((Exception) exClass.getDeclaredConstructor().newInstance());
-                }
+            try {
+                exception = (Exception) exClass.getDeclaredConstructor(String.class).newInstance(message);
+            } catch (NoSuchMethodException | InvocationTargetException e) {
+                exception = ((Exception) exClass.getDeclaredConstructor().newInstance());
             }
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             exception = new RuntimeException(e);
