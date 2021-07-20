@@ -28,7 +28,8 @@ public class ExceptionValue {
         try {
             Class<?> exClass = Class.forName(exceptionName);
             if (exClass.isAssignableFrom(LogisticsException.class)) {
-                exception = (Exception) exClass.getDeclaredConstructor(String.class, String.class, Throwable.class).newInstance(code, message, null);
+                exception = (Exception) exClass.getDeclaredConstructor(String.class, Throwable.class)
+                        .newInstance(message, null);
             } else {
                 try {
                     exception = (Exception) exClass.getDeclaredConstructor(String.class).newInstance(message);

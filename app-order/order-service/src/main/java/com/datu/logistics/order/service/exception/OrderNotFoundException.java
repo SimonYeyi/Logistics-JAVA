@@ -4,12 +4,12 @@ import com.datu.logistics.exception.LogisticsException;
 
 public class OrderNotFoundException extends LogisticsException {
 
-    public OrderNotFoundException(String message) {
-        this(null, message, null);
+    private OrderNotFoundException(String message) {
+        this(message, null);
     }
 
-    protected OrderNotFoundException(String code, String message, Throwable e) {
-        super(code, message, e);
+    protected OrderNotFoundException(String message, Throwable e) {
+        super(null, message, e);
     }
 
     public static OrderNotFoundException orderNo(String orderNo) {
