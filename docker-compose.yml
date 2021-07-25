@@ -36,6 +36,7 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     depends_on:
       - registry-app
     links:
