@@ -6,5 +6,5 @@ public interface AccountRepository {
 
     Account save(Account account);
 
-    Account accountOf(String name);
+    Account of(String name);
 }

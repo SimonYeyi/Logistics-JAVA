@@ -27,15 +27,21 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Order orderOf(String no) {
+    public Order save(Order order) {
+        OrderEntity orderEntity = orderDAO.saveAndFlush(toOrderEntity(order));
+        return toOrder(orderEntity);
+    }
+
+    @Override
+    public Order of(String no) {
         Optional<OrderEntity> orderEntity = orderDAO.findByNo(no);
         return orderEntity.map(OrderRepositoryImpl::toOrder).orElse(null);
     }
 
     @Override
-    public Order save(Order order) {
-        OrderEntity orderEntity = orderDAO.saveAndFlush(toOrderEntity(order));
-        return toOrder(orderEntity);
+    public Order of(long id) {
+        Optional<OrderEntity> orderEntity = orderDAO.findById(id);
+        return orderEntity.map(OrderRepositoryImpl::toOrder).orElse(null);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class AccountApplicationService {
     @ApiOperation("账户登录")
     @PostMapping("login")
     public AccountDTO login(@RequestBody AccountLoginCommand accountLoginCommand) {
-        Account account = accountRepository.accountOf(accountLoginCommand.getAccountName());
+        Account account = accountRepository.of(accountLoginCommand.getAccountName());
         if (account == null) {
             throw AccountNameNotFound.value(accountLoginCommand.getAccountName());
         }

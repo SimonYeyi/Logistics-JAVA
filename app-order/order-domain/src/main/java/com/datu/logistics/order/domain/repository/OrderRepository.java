@@ -6,9 +6,12 @@ import java.math.BigInteger;
 import java.util.List;
 
 public interface OrderRepository {
-    Order orderOf(String no);
 
     Order save(Order order);
+
+    Order of(String no);
+
+    Order of(long id);
 
     List<Order> pageOf(int page, int pageSize);
 }

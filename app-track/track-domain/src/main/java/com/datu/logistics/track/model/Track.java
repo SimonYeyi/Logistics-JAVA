@@ -10,12 +10,18 @@ import java.util.Date;
 @AllArgsConstructor
 public class Track {
     private final Long id;
-    private final String area;
-    private final String event;
-    private final Date time;
+    private String area;
+    private String event;
+    private Date time;
     private final Long orderId;
 
-    public static Track add(String trackArea, String trackEvent, Long orderId) {
-        return new Track(null, trackArea, trackEvent, new Date(), orderId);
+    public static Track add(String trackArea, String trackEvent, Date time, Long orderId) {
+        return new Track(null, trackArea, trackEvent, time, orderId);
+    }
+
+    public void modify(String area, String event, Date time) {
+        this.area = area;
+        this.event = event;
+        this.time = time;
     }
 }

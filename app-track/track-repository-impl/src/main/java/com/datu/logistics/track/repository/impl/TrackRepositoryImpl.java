@@ -25,7 +25,13 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     @Override
-    public List<Track> tracks(Long orderId) {
+    public Track of(long id) {
+        TrackEntity entity = trackDAO.findById(id).orElse(null);
+        return toTrack(entity);
+    }
+
+    @Override
+    public List<Track> list(Long orderId) {
         return trackDAO.findAllByOrderId(orderId).stream()
                 .map(TrackRepositoryImpl::toTrack)
                 .collect(Collectors.toList());
@@ -42,6 +48,7 @@ public class TrackRepositoryImpl implements TrackRepository {
     }
 
     private static Track toTrack(TrackEntity trackEntity) {
+        if (trackEntity == null) return null;
         return new Track(
                 trackEntity.getId(),
                 trackEntity.getArea(),

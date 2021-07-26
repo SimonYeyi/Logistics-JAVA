@@ -2,6 +2,7 @@ package com.datu.logistics.order.service;
 
 import com.datu.logistics.order.service.command.OrderAddCommand;
 import com.datu.logistics.order.service.command.OrderDelegatedCommand;
+import com.datu.logistics.order.service.command.OrderModifyCommand;
 import com.datu.logistics.order.service.dto.OrderDTO;
 import com.datu.logistics.order.service.dto.PageDTO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -14,6 +15,9 @@ public interface OrderApplicationService {
 
     @PostMapping("add")
     OrderDTO addOrder(@RequestBody OrderAddCommand orderAddCommand);
+
+    @PostMapping("modify")
+    OrderDTO modifyOrder(@RequestBody OrderModifyCommand orderModifyCommand);
 
     @GetMapping("{orderNo}/search")
     OrderDTO searchOrder(@PathVariable("orderNo") String orderNo);

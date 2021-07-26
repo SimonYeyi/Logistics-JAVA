@@ -7,6 +7,7 @@ import com.datu.logistics.track.model.Track;
 import com.datu.logistics.track.repository.TrackRepository;
 import com.datu.logistics.track.service.TrackApplicationService;
 import com.datu.logistics.track.service.command.TrackAddCommand;
+import com.datu.logistics.track.service.command.TrackModifyCommand;
 import com.datu.logistics.track.service.dto.TrackDTO;
 import com.datu.logistics.track.service.dto.TracksDTO;
 import org.springframework.cglib.beans.BeanCopier;
@@ -31,8 +32,17 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
         Track track = Track.add(
                 trackAddCommand.getTrackArea(),
                 trackAddCommand.getTrackEvent(),
+                trackAddCommand.getTime(),
                 trackAddCommand.getOrderId()
         );
+        track = trackRepository.save(track);
+        return toTrackDTO(track);
+    }
+
+    @Override
+    public TrackDTO modifyTrack(TrackModifyCommand trackModifyCommand) {
+        Track track = trackRepository.of(trackModifyCommand.getTrackId());
+        track.modify(trackModifyCommand.getTrackArea(), trackModifyCommand.getTrackEvent(), trackModifyCommand.getTime());
         track = trackRepository.save(track);
         return toTrackDTO(track);
     }
@@ -56,7 +66,7 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
     }
 
     private TracksDTO getTracks(OrderDTO orderDTO) {
-        List<TrackDTO> trackDTOs = trackRepository.tracks(orderDTO.getId()).stream()
+        List<TrackDTO> trackDTOs = trackRepository.list(orderDTO.getId()).stream()
                 .map(TrackApplicationServiceImpl::toTrackDTO)
                 .collect(Collectors.toList());
         TracksDTO tracksDTO = new TracksDTO();

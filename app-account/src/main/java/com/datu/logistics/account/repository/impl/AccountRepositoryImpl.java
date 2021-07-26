@@ -23,7 +23,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public Account accountOf(String name) {
+    public Account of(String name) {
         AccountEntity entity = accountDAO.findByName(name);
         return toModel(entity);
     }

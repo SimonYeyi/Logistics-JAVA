@@ -13,16 +13,16 @@ import java.util.List;
 @AllArgsConstructor
 public class Order implements Comparable<Order> {
     private final Long id;
-    private final String no;
+    private String no;
     private int amountPaid;
-    private final Date time;
+    private Date time;
     private final Contacts from;
-    private final Contacts to;
+    private Contacts to;
     private final List<Goods> goods;
     private List<DelegateOrder> delegateOrders = Collections.emptyList();
 
     public static Order add(String orderNo, int orderAmountPaid, Date orderTime, Contacts from, Contacts to, List<Goods> goodsList) {
-        Order order = new Order(null, orderNo, orderTime, from, to, goodsList);
+        Order order = new Order(null, orderNo, 0, orderTime, from, to, goodsList, Collections.emptyList());
         order.amountPaid = orderAmountPaid;
         return order;
     }
@@ -33,6 +33,12 @@ public class Order implements Comparable<Order> {
 
     public void settle() {
         this.amountPaid = getAmount();
+    }
+
+    public void modify(String no, Date time, String toAddress) {
+        this.no = no;
+        this.time = time;
+        this.to = new Contacts(to.getFullName(), to.getPhone(), toAddress);
     }
 
     public int getAmount() {

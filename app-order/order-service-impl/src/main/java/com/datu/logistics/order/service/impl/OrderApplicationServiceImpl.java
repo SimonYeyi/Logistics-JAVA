@@ -9,6 +9,7 @@ import com.datu.logistics.order.domain.repository.OrderRepository;
 import com.datu.logistics.order.service.OrderApplicationService;
 import com.datu.logistics.order.service.command.OrderAddCommand;
 import com.datu.logistics.order.service.command.OrderDelegatedCommand;
+import com.datu.logistics.order.service.command.OrderModifyCommand;
 import com.datu.logistics.order.service.dto.*;
 import com.datu.logistics.order.service.exception.OrderNotFoundException;
 import org.springframework.cglib.beans.BeanCopier;
@@ -47,6 +48,14 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     }
 
     @Override
+    public OrderDTO modifyOrder(OrderModifyCommand orderModifyCommand) {
+        Order order = orderRepository.of(orderModifyCommand.getOrderId());
+        order.modify(orderModifyCommand.getOrderNo(), orderModifyCommand.getOrderTime(), orderModifyCommand.getToAddress());
+        order = orderRepository.save(order);
+        return toOrderDTO(order);
+    }
+
+    @Override
     public OrderDTO searchOrder(String orderNo) {
         return getOrder(orderNo);
     }
@@ -60,7 +69,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
 
     @Override
     public OrderDTO settleOrder(String orderNo) {
-        Order order = orderRepository.orderOf(orderNo);
+        Order order = orderRepository.of(orderNo);
         if (order == null) {
             throw OrderNotFoundException.orderNo(orderNo);
         }
@@ -71,7 +80,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
 
     @Override
     public OrderDTO delegatedOrder(String orderNo, OrderDelegatedCommand orderDelegatedCommand) {
-        Order order = orderRepository.orderOf(orderNo);
+        Order order = orderRepository.of(orderNo);
         if (order == null) {
             throw OrderNotFoundException.orderNo(orderNo);
         }
@@ -98,7 +107,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
 
     @Override
     public OrderDTO getOrder(String orderNo) {
-        Order order = orderRepository.orderOf(orderNo);
+        Order order = orderRepository.of(orderNo);
         if (order == null) {
             throw OrderNotFoundException.orderNo(orderNo);
         }
