@@ -9,9 +9,13 @@ import java.util.Date;
 @AllArgsConstructor
 public class DelegateOrder {
     private final Long id;
-    private final String no;
+    private String no;
     private final String corporateName;
     private final int amount;
     private final Date time;
     private final Goods goods;
+
+    public void modify(String no) {
+        this.no = no;
+    }
 }

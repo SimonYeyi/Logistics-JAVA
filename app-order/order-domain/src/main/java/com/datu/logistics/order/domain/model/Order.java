@@ -27,18 +27,19 @@ public class Order implements Comparable<Order> {
         return order;
     }
 
-    public void delegated(List<DelegateOrder> delegateOrders) {
-        this.delegateOrders = delegateOrders;
+    public void delegated(DelegateOrder delegateOrder) {
+        this.delegateOrders = Collections.singletonList(delegateOrder);
     }
 
     public void settle() {
         this.amountPaid = getAmount();
     }
 
-    public void modify(String no, Date time, String toAddress) {
+    public void modify(String no, Date time, String toAddress, String delegateOrderNo) {
         this.no = no;
         this.time = time;
         this.to = new Contacts(to.getFullName(), to.getPhone(), toAddress);
+        this.delegateOrders.get(0).modify(delegateOrderNo);
     }
 
     public int getAmount() {

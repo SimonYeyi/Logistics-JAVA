@@ -42,7 +42,7 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
     @Override
     public TrackDTO modifyTrack(TrackModifyCommand trackModifyCommand) {
         Track track = trackRepository.of(trackModifyCommand.getTrackId());
-        track.modify(trackModifyCommand.getTrackArea(), trackModifyCommand.getTrackEvent(), trackModifyCommand.getTime());
+        track.modify(trackModifyCommand.getTrackArea(), trackModifyCommand.getTrackEvent(), trackModifyCommand.getTrackTime());
         track = trackRepository.save(track);
         return toTrackDTO(track);
     }

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 public final class OrderDelegatedCommand {
-    private List<DelegateItem> delegateItems = Collections.emptyList();
+    private DelegateItem delegateItem;
 
     @Data
     public static final class DelegateItem {

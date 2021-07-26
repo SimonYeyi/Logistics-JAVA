@@ -7,7 +7,7 @@ import java.util.Date;
 @Data
 public class TrackModifyCommand {
     private long trackId;
-    private Date time;
+    private Date trackTime;
     private String trackArea;
     private String trackEvent;
 }

@@ -68,6 +68,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         orderEntity.setDelegateOrders(
                 order.getDelegateOrders().stream().map(it -> {
                     DelegateOrderEntity delegateOrderEntity = new DelegateOrderEntity();
+                    delegateOrderEntity.setId(it.getId());
                     delegateOrderEntity.setNo(it.getNo());
                     delegateOrderEntity.setCorporateName(it.getCorporateName());
                     delegateOrderEntity.setAmount(it.getAmount());

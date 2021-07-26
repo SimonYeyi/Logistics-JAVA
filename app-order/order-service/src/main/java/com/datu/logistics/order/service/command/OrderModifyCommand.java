@@ -10,4 +10,5 @@ public final class OrderModifyCommand {
     private String orderNo;
     private Date orderTime;
     private String toAddress;
+    private String delegateOrderNo;
 }
