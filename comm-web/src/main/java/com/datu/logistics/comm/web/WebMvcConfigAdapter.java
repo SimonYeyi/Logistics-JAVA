@@ -10,6 +10,7 @@ public class WebMvcConfigAdapter implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoggingInterceptor());
         registry.addInterceptor(new AuthenticationHandlerInterceptor())
+                .excludePathPatterns("/error")
                 .excludePathPatterns("/*/api-docs/**")
                 .excludePathPatterns("/swagger-ui/**")
                 .excludePathPatterns("/swagger-resources/**");
