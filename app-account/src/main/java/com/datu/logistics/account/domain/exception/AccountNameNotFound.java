@@ -1,15 +1,11 @@
 package com.datu.logistics.account.domain.exception;
 
-import com.datu.logistics.exception.LogisticsException;
+import com.datu.logistics.exception.ServiceException;
 
-public class AccountNameNotFound extends LogisticsException {
+public class AccountNameNotFound extends ServiceException {
 
-    public AccountNameNotFound(String message) {
-        this(message, null);
-    }
-
-    protected AccountNameNotFound(String message, Throwable e) {
-        super(null, message, e);
+    protected AccountNameNotFound(String message) {
+        super(message);
     }
 
     public static AccountNameNotFound value(String accountName) {

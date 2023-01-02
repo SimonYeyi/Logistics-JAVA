@@ -1,5 +1,5 @@
 server:
-  port: 5050
+  port: 6000
   servlet:
     context-path: /account
 
@@ -23,6 +23,9 @@ eureka:
   instance:
     hostname: localhost
     prefer-ip-address: true
+    metadata-map:
+      management:
+        context-path: ${server.servlet.context-path}/actuator
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:4000/eureka
@@ -30,3 +33,25 @@ eureka:
 db:
   root:
     password: 123456
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  info:
+    git:
+      mode: full
+
+info:
+  app:
+    author: Simon
+    source-encoding: @project.build.sourceEncoding@
+    jdk: @java.version@
+
+logging:
+  file:
+    path: /logs/${spring.application.name}

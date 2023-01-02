@@ -2,6 +2,7 @@ package com.datu.logistics.order.view;
 
 import com.datu.logistics.order.service.OrderApplicationService;
 import com.datu.logistics.order.service.dto.OrderDTO;
+import com.datu.logistics.order.view.mapper.OrderVOMapper;
 import com.datu.logistics.order.view.vo.OrderVO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,6 @@ public class OrderViewModelController {
     @GetMapping("order/get")
     public OrderVO getOrder(@RequestParam("orderNo") String orderNo) {
         OrderDTO order = orderApplicationService.getOrder(orderNo);
-        return new OrderVO(order);
+        return OrderVOMapper.INSTANCE.toVO(order);
     }
 }

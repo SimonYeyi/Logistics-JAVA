@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 /**
  * Created by Simon on 2019/12/20.
  */
-
 @Configuration
 public class FeignWebMvcRegistrations implements WebMvcRegistrations {
 
@@ -27,8 +26,7 @@ public class FeignWebMvcRegistrations implements WebMvcRegistrations {
             if (!AnnotatedElementUtils.hasAnnotation(beanType, FeignClient.class)) {
                 return super.isHandler(beanType);
             } else {
-                return AnnotatedElementUtils.hasAnnotation(beanType, RestController.class)
-                        || AnnotatedElementUtils.hasAnnotation(beanType, RestService.class);
+                return AnnotatedElementUtils.hasAnnotation(beanType, RestController.class);
             }
         }
     }

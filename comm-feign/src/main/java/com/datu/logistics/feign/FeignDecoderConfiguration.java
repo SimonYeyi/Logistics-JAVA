@@ -1,6 +1,6 @@
 package com.datu.logistics.feign;
 
-import com.datu.logistics.exception.ExceptionValue;
+import com.datu.logistics.exception.ExceptionInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +20,8 @@ public class FeignDecoderConfiguration {
         return (methodKey, response) -> {
             Exception exception;
             try {
-                ExceptionValue exceptionValue = objectMapper.readValue(response.body().asInputStream(), ExceptionValue.class);
-                exception = exceptionValue.restoreException();
+                ExceptionInfo exceptionInfo = objectMapper.readValue(response.body().asInputStream(), ExceptionInfo.class);
+                exception = exceptionInfo.restoreException();
             } catch (IOException e) {
                 exception = new ErrorDecoder.Default().decode(methodKey, response);
             }

@@ -5,16 +5,16 @@
 
     <parent>
         <groupId>com.datu.logistics</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>logistics</artifactId>
         <version>0.0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>order-parent</artifactId>
+    <artifactId>app-order</artifactId>
     <version>0.0.1</version>
     <packaging>pom</packaging>
 
-    <name>order-parent</name>
+    <name>app-order</name>
 
     <modules>
         <module>order-domain</module>

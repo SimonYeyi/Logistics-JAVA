@@ -1,7 +1,6 @@
 package com.datu.logistics.order.service.impl;
 
 import com.datu.logistics.feign.RestService;
-import com.datu.logistics.order.domain.model.Contacts;
 import com.datu.logistics.order.domain.model.DelegateOrder;
 import com.datu.logistics.order.domain.model.Goods;
 import com.datu.logistics.order.domain.model.Order;
@@ -10,13 +9,14 @@ import com.datu.logistics.order.service.OrderApplicationService;
 import com.datu.logistics.order.service.command.OrderAddCommand;
 import com.datu.logistics.order.service.command.OrderDelegatedCommand;
 import com.datu.logistics.order.service.command.OrderModifyCommand;
-import com.datu.logistics.order.service.dto.*;
+import com.datu.logistics.order.service.dto.OrderDTO;
+import com.datu.logistics.order.service.dto.PageDTO;
 import com.datu.logistics.order.service.exception.OrderNotFoundException;
-import org.springframework.cglib.beans.BeanCopier;
+import com.datu.logistics.order.service.impl.mapper.OrderDTOMapper;
 import org.springframework.context.annotation.Primary;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,20 +31,29 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
         this.orderRepository = orderRepository;
     }
 
+    @Transactional
     @Override
     public OrderDTO addOrder(OrderAddCommand orderAddCommand) {
         Order order = Order.add(
                 orderAddCommand.getOrderNo(),
                 orderAddCommand.getOrderAmountPaid(),
                 orderAddCommand.getOrderTime(),
-                toContacts(orderAddCommand.getFrom()),
-                toContacts(orderAddCommand.getTo()),
+                orderAddCommand.getGoodsWeight(),
+                orderAddCommand.getGoodsQuantity(),
+                orderAddCommand.getIncomingChannel(),
+                orderAddCommand.getComment(),
+                OrderDTOMapper.INSTANCE.toContacts(orderAddCommand.getFrom()),
+                OrderDTOMapper.INSTANCE.toContacts(orderAddCommand.getTo()),
                 orderAddCommand.getGoodsList().stream()
-                        .map(OrderApplicationServiceImpl::toGoods)
+                        .map(OrderDTOMapper.INSTANCE::toGoods)
                         .collect(Collectors.toList())
         );
         order = orderRepository.save(order);
-        return toOrderDTO(order);
+        if (orderAddCommand.getOrderDelegatedCommand() == null) {
+            return toOrderDTO(order);
+        } else {
+            return delegatedOrder(order.getNo(), orderAddCommand.getOrderDelegatedCommand());
+        }
     }
 
     @Override
@@ -52,6 +61,10 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
         Order order = orderRepository.of(orderModifyCommand.getOrderId());
         order.modify(orderModifyCommand.getOrderNo(),
                 orderModifyCommand.getOrderTime(),
+                orderModifyCommand.getGoodsWeight(),
+                orderModifyCommand.getGoodsQuantity(),
+                orderModifyCommand.getIncomingChannel(),
+                orderModifyCommand.getComment(),
                 orderModifyCommand.getToAddress(),
                 orderModifyCommand.getDelegateOrderNo());
         order = orderRepository.save(order);
@@ -118,63 +131,18 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
         List<OrderDTO> orders = orderRepository.pageOf(page, pageSize).stream()
                 .map(OrderApplicationServiceImpl::toOrderDTO)
                 .collect(Collectors.toList());
-        return PageDTO.content(orders);
+        return PageDTO.by(orders);
     }
 
-    private static Goods toGoods(GoodsDTO goodsDTO) {
-        return new Goods(
-                goodsDTO.getId(),
-                goodsDTO.getName(),
-                goodsDTO.getWeight(),
-                goodsDTO.getVolume(),
-                goodsDTO.getAmount());
-    }
-
-    private static Contacts toContacts(ContactsDTO contactsDTO) {
-        return new Contacts(
-                contactsDTO.getPhone(),
-                contactsDTO.getFullName(),
-                contactsDTO.getAddress()
-        );
+    @Override
+    public PageDTO<OrderDTO> getFirstOrderPage() {
+        List<OrderDTO> orders = orderRepository.firstPage().stream()
+                .map(OrderApplicationServiceImpl::toOrderDTO)
+                .collect(Collectors.toList());
+        return PageDTO.by(orders);
     }
 
     private static OrderDTO toOrderDTO(Order order) {
-        OrderDTO orderDTO = new OrderDTO();
-        BeanCopier.create(Order.class, OrderDTO.class, false)
-                .copy(order, orderDTO, null);
-
-        orderDTO.setAmount(order.getAmount());
-
-        ContactsDTO from = new ContactsDTO();
-        BeanCopier.create(Contacts.class, ContactsDTO.class, false)
-                .copy(order.getFrom(), from, null);
-        orderDTO.setFrom(from);
-
-        ContactsDTO to = new ContactsDTO();
-        BeanCopier.create(Contacts.class, ContactsDTO.class, false)
-                .copy(order.getTo(), to, null);
-        orderDTO.setTo(to);
-
-        List<GoodsDTO> goodsDTOS = order.getGoods().stream().map(good -> {
-            GoodsDTO goodsDTO = new GoodsDTO();
-            BeanCopier.create(Goods.class, GoodsDTO.class, false)
-                    .copy(good, goodsDTO, null);
-            return goodsDTO;
-        }).collect(Collectors.toList());
-        orderDTO.setGoods(goodsDTOS);
-
-        List<DelegateOrderDTO> delegateOrderDTOS = order.getDelegateOrders().stream().map(delegateOrder -> {
-            DelegateOrderDTO delegateOrderDTO = new DelegateOrderDTO();
-            BeanCopier.create(DelegateOrder.class, DelegateOrderDTO.class, false)
-                    .copy(delegateOrder, delegateOrderDTO, null);
-            GoodsDTO goodsDTO = new GoodsDTO();
-            BeanCopier.create(Goods.class, GoodsDTO.class, false)
-                    .copy(delegateOrder.getGoods(), goodsDTO, null);
-            delegateOrderDTO.setGoods(goodsDTO);
-            return delegateOrderDTO;
-        }).collect(Collectors.toList());
-        orderDTO.setDelegateOrders(delegateOrderDTOS);
-
-        return orderDTO;
+        return OrderDTOMapper.INSTANCE.toDTO(order);
     }
 }

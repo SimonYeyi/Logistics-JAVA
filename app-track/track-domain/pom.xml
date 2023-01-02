@@ -5,7 +5,7 @@
 
     <parent>
         <groupId>com.datu.logistics</groupId>
-        <artifactId>track-parent</artifactId>
+        <artifactId>app-track</artifactId>
         <version>0.0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>

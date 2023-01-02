@@ -1,10 +1,11 @@
 package com.datu.logistics.order.repository.impl.dao.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -16,6 +17,10 @@ public class OrderEntity {
     private String no;
     private int amount;
     private int amountPaid;
+    private Float goodsWeight;
+    private Integer goodsQuantity;
+    private String incomingChannel;
+    private String comment;
     private String fromFullName;
     private String fromPhone;
     private String fromAddress;
@@ -28,4 +33,18 @@ public class OrderEntity {
     private Set<GoodsEntity> goodsEntities = new HashSet<>();
     @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL)
     private Set<DelegateOrderEntity> delegateOrders = new HashSet<>();
+
+    public void setGoodsEntities(Set<GoodsEntity> goodsEntities) {
+        for (GoodsEntity goodsEntity : goodsEntities) {
+            goodsEntity.setOrderEntity(this);
+        }
+        this.goodsEntities = goodsEntities;
+    }
+
+    public void setDelegateOrders(Set<DelegateOrderEntity> delegateOrders) {
+        for (DelegateOrderEntity delegateOrder : delegateOrders) {
+            delegateOrder.setOrderEntity(this);
+        }
+        this.delegateOrders = delegateOrders;
+    }
 }

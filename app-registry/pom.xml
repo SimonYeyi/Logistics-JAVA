@@ -5,7 +5,7 @@
 
     <parent>
         <groupId>com.datu.logistics</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>logistics</artifactId>
         <version>0.0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -13,7 +13,7 @@
     <artifactId>registry-app</artifactId>
     <version>0.0.1</version>
 
-    <name>registry-app</name>
+    <name>app-registry</name>
 
     <properties>
         <java.version>8</java.version>
@@ -23,6 +23,10 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
 
@@ -36,13 +40,6 @@
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
-                <configuration>
-                    <repository>logistics-${project.artifactId}</repository>
-                    <tag>${project.version}</tag>
-                    <buildArgs>
-                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-                    </buildArgs>
-                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -14,6 +14,7 @@ public class Account {
     private final String password;
 
     public static Account register(String accountName, String password) {
+        //密码加密
         return new Account(null, accountName, password);
     }
 

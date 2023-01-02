@@ -37,5 +37,8 @@ public interface OrderApplicationService {
 
     @GetMapping("page/get")
     PageDTO<OrderDTO> getOrderPage(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize);
+
+    @GetMapping("page/first/get")
+    PageDTO<OrderDTO> getFirstOrderPage();
 }
 

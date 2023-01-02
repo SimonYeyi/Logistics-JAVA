@@ -43,4 +43,13 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="20210730095300" author="Simon">
+        <addColumn tableName="order_">
+            <column name="goods_weight" type="FLOAT"/>
+            <column name="goods_quantity" type="INT"/>
+            <column name="incoming_channel" type="VARCHAR(32)"/>
+            <column name="comment" type="VARCHAR(256)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

@@ -24,8 +24,7 @@ public class AccountApplicationService {
     public AccountDTO register(@RequestBody AccountRegisterCommand accountRegisterCommand) {
         Account account = Account.register(accountRegisterCommand.getAccountName(), accountRegisterCommand.getPassword());
         account = accountRepository.save(account);
-        String[] tokens = JwtUtils.generateToken(account.getId(), account.getName(), null);
-        return toDTO(account, tokens);
+        return accountLogin(account);
     }
 
     @ApiOperation("账户登录")
@@ -35,9 +34,13 @@ public class AccountApplicationService {
         if (account == null) {
             throw AccountNameNotFound.value(accountLoginCommand.getAccountName());
         }
-        account.login(accountLoginCommand.getPassword());
+        return accountLogin(account);
+    }
+
+    private AccountDTO accountLogin(Account account) {
+        account.login(account.getPassword());
         String[] tokens = JwtUtils.generateToken(account.getId(), account.getName(), null);
-        return toDTO(account, tokens);
+        return AccountDTOMapper.INSTANCE.toDTO(account, tokens);
     }
 
     @ApiOperation("令牌刷新")
@@ -47,9 +50,5 @@ public class AccountApplicationService {
         long accountId = JwtUtils.getUserId(newToken);
         String accountName = JwtUtils.getUsername(newToken);
         return new AccountDTO(accountId, accountName, newToken, refreshToken);
-    }
-
-    private static AccountDTO toDTO(Account account, String[] tokens) {
-        return new AccountDTO(account.getId(), account.getName(), tokens[0], tokens[1]);
     }
 }

@@ -1,8 +1,7 @@
 package com.datu.logistics.track.service.dto;
 
-import lombok.*;
+import lombok.Data;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 @Data

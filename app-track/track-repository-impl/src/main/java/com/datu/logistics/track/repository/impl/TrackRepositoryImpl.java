@@ -4,6 +4,7 @@ import com.datu.logistics.track.model.Track;
 import com.datu.logistics.track.repository.TrackRepository;
 import com.datu.logistics.track.repository.impl.dao.TrackDAO;
 import com.datu.logistics.track.repository.impl.dao.entity.TrackEntity;
+import com.datu.logistics.track.repository.impl.mapper.TrackEntityMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,42 +20,21 @@ public class TrackRepositoryImpl implements TrackRepository {
 
     @Override
     public Track save(Track track) {
-        TrackEntity trackEntity = toTrackEntity(track);
+        TrackEntity trackEntity = TrackEntityMapper.INSTANCE.toEntity(track);
         trackEntity = trackDAO.saveAndFlush(trackEntity);
-        return toTrack(trackEntity);
+        return TrackEntityMapper.INSTANCE.toModel(trackEntity);
     }
 
     @Override
     public Track of(long id) {
         TrackEntity entity = trackDAO.findById(id).orElse(null);
-        return toTrack(entity);
+        return TrackEntityMapper.INSTANCE.toModel(entity);
     }
 
     @Override
     public List<Track> list(Long orderId) {
         return trackDAO.findAllByOrderId(orderId).stream()
-                .map(TrackRepositoryImpl::toTrack)
+                .map(TrackEntityMapper.INSTANCE::toModel)
                 .collect(Collectors.toList());
-    }
-
-    private static TrackEntity toTrackEntity(Track track) {
-        TrackEntity trackEntity = new TrackEntity();
-        trackEntity.setId(track.getId());
-        trackEntity.setArea(track.getArea());
-        trackEntity.setEvent(track.getEvent());
-        trackEntity.setTime(track.getTime());
-        trackEntity.setOrderId(track.getOrderId());
-        return trackEntity;
-    }
-
-    private static Track toTrack(TrackEntity trackEntity) {
-        if (trackEntity == null) return null;
-        return new Track(
-                trackEntity.getId(),
-                trackEntity.getArea(),
-                trackEntity.getEvent(),
-                trackEntity.getTime(),
-                trackEntity.getOrderId()
-        );
     }
 }

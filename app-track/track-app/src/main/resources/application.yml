@@ -21,11 +21,18 @@ spring:
     time-zone: GMT+8
   redis:
     host: ${eureka.instance.hostname}
+  rabbitmq:
+    addresses: ${eureka.instance.hostname}:5672
+    username: root
+    password: ${db.root.password}
 
 eureka:
   instance:
     hostname: localhost
     prefer-ip-address: true
+    metadata-map:
+      management:
+        context-path: ${server.servlet.context-path}/actuator
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:4000/eureka
@@ -33,3 +40,25 @@ eureka:
 db:
   root:
     password: 123456
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  info:
+    git:
+      mode: full
+
+info:
+  app:
+    author: Simon
+    source-encoding: @project.build.sourceEncoding@
+    jdk: @java.version@
+
+logging:
+  file:
+    path: /logs/${spring.application.name}

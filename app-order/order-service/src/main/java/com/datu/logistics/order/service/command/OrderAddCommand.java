@@ -13,9 +13,14 @@ public final class OrderAddCommand {
     private String orderNo;
     private Date orderTime;
     private int orderAmountPaid;
+    private Float goodsWeight;
+    private Integer goodsQuantity;
+    private String incomingChannel;
+    private String comment;
     private ContactsDTO from;
     private ContactsDTO to;
     private List<GoodsDTO> goodsList;
+    private OrderDelegatedCommand orderDelegatedCommand;
 
     public OrderAddCommand() {
         from = new ContactsDTO();

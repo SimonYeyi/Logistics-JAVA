@@ -1,14 +1,11 @@
 package com.datu.logistics.account.domain.exception;
 
-import com.datu.logistics.exception.LogisticsException;
+import com.datu.logistics.exception.ServiceException;
 
-public class AccountPasswordError extends LogisticsException {
-    public AccountPasswordError(String message) {
-        this(message, null);
-    }
+public class AccountPasswordError extends ServiceException {
 
-    protected AccountPasswordError(String message, Throwable e) {
-        super(null, message, e);
+    protected AccountPasswordError(String message) {
+        super(message);
     }
 
     public static AccountPasswordError value(String accountName) {

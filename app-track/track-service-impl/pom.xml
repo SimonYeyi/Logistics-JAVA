@@ -5,7 +5,7 @@
 
     <parent>
         <groupId>com.datu.logistics</groupId>
-        <artifactId>track-parent</artifactId>
+        <artifactId>app-track</artifactId>
         <version>0.0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -36,6 +36,11 @@
             <groupId>com.datu.logistics</groupId>
             <artifactId>track-repository-impl</artifactId>
             <version>0.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
     </dependencies>
 </project>

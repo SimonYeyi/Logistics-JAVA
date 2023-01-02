@@ -1,18 +1,14 @@
 package com.datu.logistics.order.service.exception;
 
-import com.datu.logistics.exception.LogisticsException;
+import com.datu.logistics.exception.ServiceException;
 
-public class OrderNotFoundException extends LogisticsException {
+public class OrderNotFoundException extends ServiceException {
 
-    private OrderNotFoundException(String message) {
-        this(message, null);
-    }
-
-    protected OrderNotFoundException(String message, Throwable e) {
-        super(null, message, e);
+    protected OrderNotFoundException(String message) {
+        super(message);
     }
 
     public static OrderNotFoundException orderNo(String orderNo) {
-        return new OrderNotFoundException("Order not found: orderId is " + orderNo);
+        return new OrderNotFoundException("Order not found: orderNo is " + orderNo);
     }
 }

@@ -31,4 +31,8 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="20211230093700" author="Simon">
+        <dropUniqueConstraint tableName="delegate_order" uniqueColumns="no" constraintName="no"/>
+    </changeSet>
 </databaseChangeLog>

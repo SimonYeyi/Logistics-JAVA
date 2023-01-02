@@ -113,7 +113,10 @@ public class JwtUtils {
         Object claim = getClaim(token).get(name);
         String claimString = claim + "";
         if (claimString.endsWith("_L")) {
-            claim = Long.parseLong(claimString.substring(0, claimString.length() - 2));
+            try {
+                claim = Long.parseLong(claimString.substring(0, claimString.length() - 2));
+            } catch (NumberFormatException ignored) {
+            }
         }
         return (T) claim;
     }

@@ -33,3 +33,25 @@ eureka:
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:4000/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  info:
+    git:
+      mode: full
+
+info:
+  app:
+    author: Simon
+    source-encoding: @project.build.sourceEncoding@
+    jdk: @java.version@
+
+logging:
+  file:
+    path: /logs/${spring.application.name}

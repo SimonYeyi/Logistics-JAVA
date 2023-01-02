@@ -14,4 +14,6 @@ public interface OrderRepository {
     Order of(long id);
 
     List<Order> pageOf(int page, int pageSize);
+
+    List<Order> firstPage();
 }

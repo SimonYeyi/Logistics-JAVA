@@ -1,0 +1,30 @@
+server:
+  port: 4500
+
+spring:
+  application:
+    name: monitor
+  security:
+    user:
+      name: admin
+      password: admin
+  boot:
+    admin:
+      discovery:
+        ignored-services: ${spring.application.name}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:4000/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

@@ -12,6 +12,10 @@ public final class OrderDTO {
     private Date time;
     private int amount;
     private int amountPaid;
+    private Float goodsWeight;
+    private Integer goodsQuantity;
+    private String incomingChannel;
+    private String comment;
     private ContactsDTO from;
     private ContactsDTO to;
     private List<GoodsDTO> goods;

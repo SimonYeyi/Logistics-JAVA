@@ -1,14 +1,10 @@
 package com.datu.logistics.order.service.exception;
 
-import com.datu.logistics.exception.LogisticsException;
+import com.datu.logistics.exception.ServiceException;
 
-public class OrderGoodsEmptyException extends LogisticsException {
+public class OrderGoodsEmptyException extends ServiceException {
 
-    public OrderGoodsEmptyException() {
-        this("Order goods is empty", null);
-    }
-
-    protected OrderGoodsEmptyException(String message, Throwable e) {
-        super(null, message, e);
+    protected OrderGoodsEmptyException(String message) {
+        super("Order goods is empty");
     }
 }

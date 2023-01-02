@@ -3,19 +3,33 @@ version: '3'
 services:
   registry-app:
     hostname: registry                                        # 注册中心的hostname一定要有，且必须和代码中配置文件里的hostname一致
-    image: "logistics-registry-app:0.0.1"                     # 镜像名：标签名
+    image: logistics-registry-app:0.0.1                       # 镜像名：标签名
     container_name: registry-app
     ports:
-      - 4000:4000                                             # 映射的端口号，和代码中配置文件里的端口号一致                                              # 加入的网络
+      - 4000:4000                                             # 映射的端口号，和代码中配置文件里的端口号一致
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}       # spring-boot环境
       EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
     networks:
+      - app-net                                               # 加入的网络
+    restart: on-failure
+  monitor-app:
+    hostname: registry
+    image: logistics-monitor-app:0.0.1
+    container_name: monitor-app
+    ports:
+      - 4500:4500
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
+    depends_on:
+      - registry-app
+    networks:
       - app-net
-    restart: "on-failure"
+    restart: on-failure
   gateway-app:
     hostname: registry
-    image: "logistics-gateway-app:0.0.1"
+    image: logistics-gateway-app:0.0.1
     container_name: gateway-app
     ports:
       - 5000:5000
@@ -26,13 +40,13 @@ services:
       - registry-app
     networks:
       - app-net
-    restart: "on-failure"
+    restart: on-failure
   account-app:
     hostname: registry
-    image: "logistics-account-app:0.0.1"
+    image: logistics-account-app:0.0.1
     container_name: account-app
     ports:
-      - 5050:5050
+      - 6000:6000
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       EUREKA_INSTANCE_HOSTNAME: ${EUREKA_INSTANCE_HOSTNAME}
@@ -43,10 +57,10 @@ services:
       - redis
     networks:
       - app-net
-    restart: "on-failure"
+    restart: on-failure
   order-app:
     hostname: registry
-    image: "logistics-order-app:0.0.1"
+    image: logistics-order-app:0.0.1
     container_name: order-app
     ports:
       - 6050:6050
@@ -57,14 +71,16 @@ services:
     depends_on:
       - registry-app
       - mysql
+      - rabbitmq
     links:
       - mysql
+      - rabbitmq
     networks:
       - app-net
-    restart: "on-failure"
+    restart: on-failure
   track-app:
     hostname: registry
-    image: "logistics-track-app:0.0.1"
+    image: logistics-track-app:0.0.1
     container_name: track-app
     ports:
       - 6060:6060
@@ -75,11 +91,13 @@ services:
     depends_on:
       - registry-app
       - mysql
+      - rabbitmq
     links:
       - mysql
+      - rabbitmq
     networks:
       - app-net
-    restart: "on-failure"
+    restart: on-failure
   redis:
     image: redis:6.2.1
     container_name: redis
@@ -87,9 +105,11 @@ services:
       - 6379:6379
     volumes:
       - ${DOCKER_DIR}/redis/data:/data
+    environment:
+      TZ: Asia/Shanghai
     networks:
       - app-net
-    restart: "on-failure"
+    restart: on-failure
   redisinsight:
     image: redislabs/redisinsight:1.10.1
     container_name: redisinsight
@@ -97,7 +117,7 @@ services:
       - 8001:8001
     networks:
       - app-net
-    restart: "on-failure"
+    restart: on-failure
   mysql:
     image: mysql:8.0.23
     container_name: mysql
@@ -113,20 +133,35 @@ services:
     privileged: true
     networks:
       - app-net
-    restart: "on-failure"
+    restart: on-failure
   adminer:
     image: adminer:4.8.0
     container_name: adminer
     ports:
       - 8080:8080
     environment:
-      ADMINER_DESIGN: 'nette'
-      ADMINER_PLUGINS: 'tables-filter tinymce'
+      ADMINER_DESIGN: nette
+      ADMINER_PLUGINS: tables-filter tinymce
       ADMINER_DEFAULT_SERVER: mysql
     networks:
       - app-net
     restart: on-failure
-
+  rabbitmq:
+    image: rabbitmq:3.10.5-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ${DOCKER_DIR}/rabbitmq/var/lib/rabbitmq:/var/lib/rabbitmq
+    environment:
+      TZ: Asia/Shanghai
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: ${DB_ROOT_PASSWORD}
+    networks:
+      - app-net
+    restart: on-failure
 networks:
   app-net:
     driver: bridge

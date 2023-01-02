@@ -1,7 +1,7 @@
 package com.datu.logistics.comm.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -25,7 +25,7 @@ public class AuthenticationHandlerInterceptor implements HandlerInterceptor {
         try {
             JwtUtils.verifyToken(token);
         } catch (JWTVerificationException e) {
-            response.setStatus(401);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
             throw e;
         }
         return true;

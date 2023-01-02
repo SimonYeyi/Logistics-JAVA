@@ -10,7 +10,7 @@ import com.datu.logistics.track.service.command.TrackAddCommand;
 import com.datu.logistics.track.service.command.TrackModifyCommand;
 import com.datu.logistics.track.service.dto.TrackDTO;
 import com.datu.logistics.track.service.dto.TracksDTO;
-import org.springframework.cglib.beans.BeanCopier;
+import com.datu.logistics.track.service.impl.mapper.TrackDTOMapper;
 import org.springframework.context.annotation.Primary;
 
 import java.util.List;
@@ -32,19 +32,21 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
         Track track = Track.add(
                 trackAddCommand.getTrackArea(),
                 trackAddCommand.getTrackEvent(),
-                trackAddCommand.getTime(),
+                trackAddCommand.getTrackTime(),
                 trackAddCommand.getOrderId()
         );
         track = trackRepository.save(track);
-        return toTrackDTO(track);
+        return TrackDTOMapper.INSTANCE.toDTO(track);
     }
 
     @Override
     public TrackDTO modifyTrack(TrackModifyCommand trackModifyCommand) {
         Track track = trackRepository.of(trackModifyCommand.getTrackId());
-        track.modify(trackModifyCommand.getTrackArea(), trackModifyCommand.getTrackEvent(), trackModifyCommand.getTrackTime());
+        track.modify(trackModifyCommand.getTrackArea(),
+                trackModifyCommand.getTrackEvent(),
+                trackModifyCommand.getTrackTime());
         track = trackRepository.save(track);
-        return toTrackDTO(track);
+        return TrackDTOMapper.INSTANCE.toDTO(track);
     }
 
     @Override
@@ -66,19 +68,7 @@ public class TrackApplicationServiceImpl implements TrackApplicationService {
     }
 
     private TracksDTO getTracks(OrderDTO orderDTO) {
-        List<TrackDTO> trackDTOs = trackRepository.list(orderDTO.getId()).stream()
-                .map(TrackApplicationServiceImpl::toTrackDTO)
-                .collect(Collectors.toList());
-        TracksDTO tracksDTO = new TracksDTO();
-        tracksDTO.setOrder(orderDTO);
-        tracksDTO.setTracks(trackDTOs);
-        return tracksDTO;
-    }
-
-    private static TrackDTO toTrackDTO(Track track) {
-        TrackDTO trackDTO = new TrackDTO();
-        BeanCopier.create(Track.class, TrackDTO.class, false)
-                .copy(track, trackDTO, null);
-        return trackDTO;
+        List<Track> tracks = trackRepository.list(orderDTO.getId());
+        return TrackDTOMapper.INSTANCE.toDTOs(orderDTO, tracks);
     }
 }
